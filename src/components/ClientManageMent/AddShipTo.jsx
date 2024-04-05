@@ -24,7 +24,7 @@ const AddShipTo = () => {
     currency: from?.currency || "",
     port_of_orign: from?.port_of_orign || "",
     destination_port: from?.destination_port || "",
-    Commission_Currency: from?.Commission_Currency || "",
+    Commission_Currency: from?.Commission_Currency || "FX",
     liner_Drop: from?.liner_Drop || "",
     profit: from?.profit || "",
     rebate: from?.rebate || "",
@@ -41,10 +41,12 @@ const AddShipTo = () => {
     const newValue = type === "checkbox" ? (checked ? "THB" : "FX") : value;
     setState((prevState) => ({
       ...prevState,
-      [name]: newValue,
+      [name]: name === "Commission_Currency" && value === "" ? "FX" : newValue,
     }));
   };
   
+  
+
   const { data: brands } = useQuery("getBrand");
   const { data: client } = useQuery("getAllClients");
   const { data: port } = useQuery("getAllAirports");
@@ -54,18 +56,12 @@ const AddShipTo = () => {
   const { data: currency } = useQuery("getCurrency");
 
   const update = () => {
-    // Update state to pass 'THB' or 'FX' based on Commission_Currency
-    const updatedState = {
-      ...state,
-      Commission_Currency: state.Commission_Currency ? "THB" : "FX",
-    };
-
     axios
       .post(
         `${API_BASE_URL}/${
           from?.consignee_id ? "updateConsignee" : "createConsignee"
         }`,
-        updatedState
+        state // Use the updated state directly
       )
       .then((response) => {
         navigate("/shipToNew");
@@ -83,6 +79,7 @@ const AddShipTo = () => {
         return false;
       });
   };
+
   console.log(state.Commission_Currency);
   return (
     <Card title={`Ship To / ${from?.consignee_id ? "Update" : "Create"} Form`}>

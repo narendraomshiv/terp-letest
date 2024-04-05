@@ -8,6 +8,7 @@ import { Card } from "../../card";
 import { ComboBox } from "../combobox";
 
 const CreatePurchaseOrder = () => {
+  const [buttonClicked, setButtonClicked] = React.useState(false);
   const location = useLocation();
   const { from } = location.state || {};
   console.log(from);
@@ -144,6 +145,10 @@ const CreatePurchaseOrder = () => {
       });
   };
   const update = async () => {
+    if (buttonClicked) {
+      return;
+    }
+    setButtonClicked(true);
     try {
       const response = await axios.post(
         `${API_BASE_URL}/${
@@ -161,7 +166,9 @@ const CreatePurchaseOrder = () => {
         theme: "colored",
       });
       navigate("/purchase_orders");
+      // window.location.reload(); // Refresh the page after navigation
     } catch (e) {
+      setButtonClicked(false);
       toast.error("Error has occured", {
         autoClose: 5000,
         theme: "colored",
@@ -392,132 +399,127 @@ const CreatePurchaseOrder = () => {
                             )}
                           </td>
                           <td>
-                          {v.pod_status == "1" ? (
-                               <input
-                              className="border-0"
-                              type="text"
-                              name="pod_quantity"
-                              style={{ width: "200px" }}
-                              disabled={+v.pod_status != 1}
-                              value={v.pod_quantity}
-                              onChange={(e) => handleEditDatils(i, e)}
-                            /> 
+                            {v.pod_status == "1" ? (
+                              <input
+                                className="border-0"
+                                type="text"
+                                name="pod_quantity"
+                                style={{ width: "200px" }}
+                                disabled={+v.pod_status != 1}
+                                value={v.pod_quantity}
+                                onChange={(e) => handleEditDatils(i, e)}
+                              />
                             ) : (
                               <> {v.pod_quantity}</>
                             )}
-
                           </td>
                           <td>
-                          {v.pod_status == "1" ? (
-                             <ComboBox
-                             containerStyle={{ width: "200px" }}
-                             options={unitType?.map((v) => ({
-                               id: v.unit_id,
-                               name: v.unit_name_en,
-                             }))}
-                             value={v.unit_count_id}
-                             onChange={(e) => {
-                               if (+v.pod_status != 1) return;
-                               const newEditPackaging = [...details];
-                               newEditPackaging[i].unit_count_id = e;
-                               setDetails(newEditPackaging);
-                             }}
-                           />
+                            {v.pod_status == "1" ? (
+                              <ComboBox
+                                containerStyle={{ width: "200px" }}
+                                options={unitType?.map((v) => ({
+                                  id: v.unit_id,
+                                  name: v.unit_name_en,
+                                }))}
+                                value={v.unit_count_id}
+                                onChange={(e) => {
+                                  if (+v.pod_status != 1) return;
+                                  const newEditPackaging = [...details];
+                                  newEditPackaging[i].unit_count_id = e;
+                                  setDetails(newEditPackaging);
+                                }}
+                              />
                             ) : (
                               <> {v.unit_count_id}</>
                             )}
-                      
                           </td>
                           <td>
-                          {v.pod_status == "1" ? (
-                             <input
-                             type="number"
-                             name="pod_price"
-                             className="border-0"
-                             defaultValue={v.pod_price}
-                             disabled={+v.pod_status != 1}
-                             onChange={(e) => handleEditDatils(i, e)}
-                             style={{ width: "200px" }}
-                           />
+                            {v.pod_status == "1" ? (
+                              <input
+                                type="number"
+                                name="pod_price"
+                                className="border-0"
+                                defaultValue={v.pod_price}
+                                disabled={+v.pod_status != 1}
+                                onChange={(e) => handleEditDatils(i, e)}
+                                style={{ width: "200px" }}
+                              />
                             ) : (
-                              <>  {v.pod_price}</>
+                              <> {v.pod_price}</>
                             )}
-                        
                           </td>
                           <td>
-                          {v.pod_status == "1" ? (
-                             <input
-                             type="number"
-                             name="pod_price"
-                             className="border-0"
-                             defaultValue={v.pod_price}
-                             disabled={+v.pod_status != 1}
-                             onChange={(e) => handleEditDatils(i, e)}
-                             style={{ width: "200px" }}
-                           />
+                            {v.pod_status == "1" ? (
+                              <input
+                                type="number"
+                                name="pod_vat"
+                                className="border-0"
+                                defaultValue={v.pod_vat}
+                                disabled={+v.pod_status != 1}
+                                onChange={(e) => handleEditDatils(i, e)}
+                                style={{ width: "200px" }}
+                              />
                             ) : (
                               <> {v.pod_vat}</>
                             )}
-                          
                           </td>
                           <td>
-                          {v.pod_status == "1" ? (
-                            <input
-                            style={{ width: "200px" }}
-                            type="text"
-                            readOnly
-                            className="border-0"
-                            disabled={+v.pod_status != 1}
-                            value={(
-                              +(
-                                +v.pod_price *
-                                +v.pod_quantity *
-                                (v.pod_vat / 100)
-                              ) +
-                              +v.pod_price * +v.pod_quantity
-                            ).toLocaleString("en-us")}
-                          />
-                            ) : (
-                              <> {(
-                                +(
-                                  +v.pod_price *
-                                  +v.pod_quantity *
-                                  (v.pod_vat / 100)
-                                ) +
-                                +v.pod_price * +v.pod_quantity
-                              ).toLocaleString("en-us")}</>
-                            )}
-                           
-                          </td>
-                          <td>
-                       
-
                             {v.pod_status == "1" ? (
                               <input
-                              type="text"
-                              name="pod_wht_id"
-                              className="border-0"
-                              disabled={+v.pod_status != 1}
-                              style={{ width: "200px" }}
-                              value={v.pod_wht_id}
-                              onChange={(e) => handleEditDatils(i, e)}
-                            />
+                                style={{ width: "200px" }}
+                                type="text"
+                                readOnly
+                                className="border-0"
+                                disabled={+v.pod_status != 1}
+                                value={(
+                                  +(
+                                    +v.pod_price *
+                                    +v.pod_quantity *
+                                    (v.pod_vat / 100)
+                                  ) +
+                                  +v.pod_price * +v.pod_quantity
+                                ).toLocaleString("en-us")}
+                              />
+                            ) : (
+                              <>
+                                {" "}
+                                {(
+                                  +(
+                                    +v.pod_price *
+                                    +v.pod_quantity *
+                                    (v.pod_vat / 100)
+                                  ) +
+                                  +v.pod_price * +v.pod_quantity
+                                ).toLocaleString("en-us")}
+                              </>
+                            )}
+                          </td>
+                          <td>
+                            {v.pod_status == "1" ? (
+                              <input
+                                type="text"
+                                name="pod_wht_id"
+                                className="border-0"
+                                disabled={+v.pod_status != 1}
+                                style={{ width: "200px" }}
+                                value={v.pod_wht_id}
+                                onChange={(e) => handleEditDatils(i, e)}
+                              />
                             ) : (
                               <> {v.pod_wht_id}</>
                             )}
                           </td>
                           <td>
-                          
                             {v.pod_status == "1" ? (
-                             <input
-                             type="text"
-                             name="pod_crate"
-                             className="border-0"
-                             style={{ width: "200px" }}
-                             disabled={+v.pod_status != 1}
-                             value={v.pod_crate}
-                             onChange={(e) => handleEditDatils(i, e)}
-                           />
+                              <input
+                                type="text"
+                                name="pod_crate"
+                                className="border-0"
+                                style={{ width: "200px" }}
+                                disabled={+v.pod_status != 1}
+                                value={v.pod_crate}
+                                onChange={(e) => handleEditDatils(i, e)}
+                              />
                             ) : (
                               <> {v.pod_crate}</>
                             )}
@@ -712,6 +714,7 @@ const CreatePurchaseOrder = () => {
             type="submit"
             name="signup"
             onClick={update}
+            disabled={buttonClicked} // Disable button if it has been clicked
           >
             {from?.po_id ? "Update" : "Create"}
           </button>

@@ -1324,7 +1324,74 @@ input[type="number"] {
   left: 48px;
   top: -3px;
 }
- 
+
 .rowCursorPointer span.mdi.mdi-check.mr-2.text-xl {
   display: none;
+}
+.container-fluid .btn {
+  letter-spacing: 0px !important;
+}
+.userIcon i {
+  color: var(--blue);
+  font-size: 22px;
+}
+/* user reset */
+.resetForm input {
+  border: 2px solid #203764;
+  width: 100%;
+  border-radius: 5px;
+  padding: 8px;
+}
+.resetForm h6 {
+  margin: 15px 0px 10px 0px;
+  font-weight: 600;
+}
+
+input.userCheck {
+  height: 18px;
+  width: 25px;
+}
+.resetBtn {
+  margin-top: 30px;
+}
+.resetBtn button {
+  background-color: var(--blue);
+  padding: 7px 30px;
+  color: #fff;
+  font-size: 17px;
+  border-radius: 20px;
+  font-weight: 650;
+  margin-right: 5px;
+}
+.userIcon i {
+  color: var(--blue);
+  font-size: 22px;
+}
+/ user reset / .resetForm input {
+  border: 2px solid #203764;
+  width: 100%;
+  border-radius: 5px;
+  padding: 8px;
+}
+.resetForm h6 {
+  margin: 15px 0px 10px 0px;
+  font-weight: 600;
+}
+
+#userCheck {
+  height: 18px;
+  width: 25px;
+}
+
+.resetBtn button {
+  background-color: var(--blue);
+  padding: 7px 30px;
+  color: #fff;
+  font-size: 17px;
+  border-radius: 20px;
+  font-weight: 650;
+  margin-right: 5px;
+}
+.resetBtn {
+  padding-top: 30px;
 }

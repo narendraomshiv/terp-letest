@@ -104,6 +104,10 @@ const Orders = () => {
         accessor: "consignee_name",
       },
       {
+        Header: "TT REF",
+        accessor: "Shipment_ref",
+      },
+      {
         Header: "Location",
         accessor: "location_name",
       },
@@ -143,6 +147,8 @@ const Orders = () => {
             <Link to="/orderPdfView" state={{ from: { ...a } }}>
               <i className="mdi mdi-file-pdf-box" />
             </Link>
+            <Link to="/orderPdf_View"><i class="mdi mdi-file-account-outline"></i></Link>
+
             <Link
               to="/createQutation"
               state={{

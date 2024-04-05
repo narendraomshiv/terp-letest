@@ -31,6 +31,7 @@ import UpdateOperation from "./components/Orders/UpdateOperation";
 import CreateOrder from "./components/Orders/order/CreateOrder";
 import Orders from "./components/Orders/order/list";
 import { OrderPdfView } from "./components/Orders/order/pdfView";
+
 import AddPacking from "./components/Packing/AddPacking";
 import Hpl from "./components/Packing/Hpl";
 import HplDetails from "./components/Packing/HplDetails";
@@ -104,6 +105,15 @@ import { EanRepack } from "./components/operation/eanRepack";
 import { OrderPackagingEdit } from "./components/operation/packaging/edit";
 import { OrderPackagingList } from "./components/operation/packaging/list";
 import DashboardNew from "./pages/DashboardNew";
+import { Pdf_View } from "./components/Orders/order/Pdf_View";
+import Users from "./components/Setup/user/Users";
+import CreateUser from "./components/Setup/user/CreateUser";
+import UserResetPass from "./components/Setup/user/UserResetPass";
+import InventoryProduce from "./components/operation/InventoryProduce";
+import InventoryPackaging from "./components/operation/InventoryPackaging";
+import InventoryBoxes from "./components/operation/InventoryBoxes";
+import UpdateUser from "./components/Setup/user/UpdateUser";
+ 
 function App() {
   const [isAuthenticate] = useContext(IsLoginAuthenticateContext);
   return (
@@ -239,6 +249,11 @@ function App() {
                 />
                 <Route path="/hplNew" element={<HplNew />} />
                 <Route path="/createQutation" element={<CreateQutoation />} />
+                <Route path="/createUser" element={<CreateUser />} />
+                <Route path="/updateUser" element={<UpdateUser />} />
+
+                <Route path="/userResetPass" element={<UserResetPass />} />
+                
                 <Route path="/packingNew" element={<PackingNew />} />
                 <Route path="/updateHourly" element={<UpdateHourly />} />
                 <Route path="/addHourly" element={<UpdateHourly />} />
@@ -263,8 +278,14 @@ function App() {
                 <Route path="/adjustEan" element={<AdjustEan />} />
                 <Route path="/repackEan" element={<EanRepack />} />
                 <Route path="/orderPdfView" element={<OrderPdfView />} />
+                <Route path="/orderPdf_View" element={<Pdf_View />} />
+
                 <Route path="/expenseItem" element={<ExpenseItemList />} />
                 <Route path="/expenseItemEdit" element={<EditExpenseItems />} />
+                <Route path="/user" element={<Users />} />
+                <Route path="/inventoryProduce" element={<InventoryProduce />} />
+                <Route path="/inventoryPackaging" element={<InventoryPackaging />} />
+                <Route path="/inventoryBoxes" element={<InventoryBoxes />} />
               </Route>
             ) : (
               <>

@@ -94,14 +94,14 @@ export const OperationDashboard = () => {
 							<div key={`cald_${index}`} className="px-2 py-2">
 								{date.getDate()}{" "}
 								{date.toLocaleDateString("default", { month: "short" })}{" "}
-								{date.getFullYear()}
+								{date?.getFullYear()}
 								{required_itf_en
-									.filter((v) => v.start.getFullYear() === date.getFullYear())
+									.filter((v) => v.start?.getFullYear() === date?.getFullYear())
 									.filter((v) => v.start.getMonth() === date.getMonth())
 									.filter((v) => v.start.getDate() === date.getDate())
 									.length ? (
 									required_itf_en
-										.filter((v) => v.start.getFullYear() === date.getFullYear())
+										.filter((v) => v.start?.getFullYear() === date?.getFullYear())
 										.filter((v) => v.start.getMonth() === date.getMonth())
 										.filter((v) => v.start.getDate() === date.getDate())
 										.map((v) => <div>{v.title}</div>)
@@ -118,11 +118,11 @@ export const OperationDashboard = () => {
 							<div key={`cald_${index}`} className="px-2 py-2">
 								{date.getDa} {date.getDate()}{" "}
 								{date.toLocaleDateString("default", { month: "short" })}{" "}
-								{date.getFullYear()}
+								{date?.getFullYear()}
 								<div className="flex flex-col gap-2">
 									{Orders_pipline.filter(
 										(v) =>
-											v["Loading Date"].getFullYear() === date.getFullYear(),
+											v["Loading Date"]?.getFullYear() === date?.getFullYear(),
 									)
 										.filter(
 											(v) => v["Loading Date"].getMonth() === date.getMonth(),
@@ -131,7 +131,7 @@ export const OperationDashboard = () => {
 											(v) => v["Loading Date"].getDate() === date.getDate(),
 										).length ? (
 										Orders_pipline.filter(
-											(v) => v.start.getFullYear() === date.getFullYear(),
+											(v) => v.start?.getFullYear() === date?.getFullYear(),
 										)
 											.filter((v) => v.start.getMonth() === date.getMonth())
 											.filter((v) => v.start.getDate() === date.getDate())

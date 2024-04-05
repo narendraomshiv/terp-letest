@@ -4,9 +4,7 @@ import { useQuery } from "react-query";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../../Url/Url";
-
 import MySwal from "../../swal";
-
 import { ComboBox } from "../combobox";
 import { TableView } from "../table";
 
@@ -54,6 +52,8 @@ const NewEanPacking = () => {
   const [state, setState] = useState(defaultState);
   const [toggle, setToggle] = useState(false);
   const [data, setData] = useState(defaultData);
+  // const [filterdata, setFilterdata] = useState("");
+
   const [packingCommonId, setPackingCommonId] = useState(null);
   const [datatable, setDatatable] = useState([]);
   console.log(state.start_time);
@@ -138,11 +138,12 @@ const NewEanPacking = () => {
     loadingModal.fire();
 
     axios.post(`${API_BASE_URL}/getPackingCommon`, request).then((response) => {
+      console.log(response)
       if (response.data.data) {
         const { packing_common_id, number_of_staff, start_time, end_time } =
           response.data.data;
 
-        setPackingCommonId((prevState) => packing_common_id);
+        // setPackingCommonId((prevState) => packing_common_id);
         setState((prevState) => {
           return {
             ...prevState,
@@ -152,7 +153,7 @@ const NewEanPacking = () => {
           };
         });
 
-        getDatatable(packing_common_id);
+        // getDatatable(packing_common_id);
       }
 
       MySwal.close();
@@ -163,6 +164,7 @@ const NewEanPacking = () => {
     await axios
       .post(`${API_BASE_URL}getEanDetailViews`, {
         packing_common_id: packing_common_id,
+        // last_inserted_id: filterdata,
       })
       .then((response) => {
         console.log(response);
@@ -191,6 +193,7 @@ const NewEanPacking = () => {
   };
 
   const checkPackCommonId = async () => {
+    console.log(packingCommonId)
     if (!packingCommonId) {
       const { qty_used, number_of_staff, start_time, end_time } = state;
 
@@ -250,6 +253,9 @@ const NewEanPacking = () => {
       .post(`${API_BASE_URL}/createEanProducne`, request)
       .then((response) => {
         console.log(response);
+        // const lidValue = response.data.data[0][0]["@LID"];
+        // console.log(lidValue);
+        // setFilterdata(lidValue);
         if (response.status === 200) {
           toast.success("EanPacking detail added successfully");
           closeModal();
@@ -452,10 +458,12 @@ const NewEanPacking = () => {
                 <div className="form-group mb-3">
                   <label>EAN</label>
                   <ComboBox
-                    options={eanData?.map((item) => ({
-                      id: item.ean_id,
-                      name: item.ean_name_en,
-                    }))}
+                    options={eanData
+                      ?.filter((v) => v.ean_name_en.includes(from?.produce))
+                      ?.map((item) => ({
+                        id: item.ean_id,
+                        name: item.ean_name_en,
+                      }))}
                     value={data?.ean_id}
                     onChange={(e) => handleChangeData(e, "ean_id")}
                   />

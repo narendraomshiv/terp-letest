@@ -65,7 +65,7 @@ const ClearanceNew = () => {
 			},
 			{
 				Header: "Port Of Origin",
-			 
+				accessor: "port_name",
 			},
 			{
 				Header: "Port Type",

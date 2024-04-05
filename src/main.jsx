@@ -61,7 +61,7 @@ root.render(
 		<QueryClientProvider client={queryClient}>
 			<IsLoginAuthenticateProvider>
 				<IsToastProvider>
-					<BrowserRouter basename="/terp">
+					<BrowserRouter basename="/app.terp.com">
 						<App />
 					</BrowserRouter>
 				</IsToastProvider>

@@ -26,6 +26,9 @@ export const OrderPackagingEdit = () => {
   const isReadOnly = from?.isReadOnly;
   const [isLoading, setIsLoading] = useState(false);
   const [details, setDetails] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState([]);
+  const [disabledPackagingButtons, setDisabledPackagingButtons] = useState([]);
+
   const getOrdersDetails = () => {
     axios
       .get(`${API_BASE_URL}/getOrdersDetails`, {
@@ -39,17 +42,21 @@ export const OrderPackagingEdit = () => {
       })
       .catch((e) => {});
   };
+
   const handleEditValues = (index, e) => {
     if (isReadOnly || isLoading) return;
     const newEditProduce = [...details];
     newEditProduce[index][e.target.name] = e.target.value;
     setDetails(newEditProduce);
   };
+
   const { data: unit } = useQuery("getAllUnit");
   const { data: itf } = useQuery("getItf");
+
   useEffect(() => {
     getOrdersDetails();
   }, []);
+
   const doPackaging = async (index) => {
     const data = details[index];
     if (!data.buns || !data.adjusted_gw_od)
@@ -80,9 +87,27 @@ export const OrderPackagingEdit = () => {
     } finally {
       loadingModal.close();
       setIsLoading(false);
+
+      // Disable the button after it's clicked
+      setDisabledPackagingButtons((prevDisabledButtons) => [
+        ...prevDisabledButtons,
+        index,
+      ]);
     }
   };
-  const restoreOrderPackaging = (id) => {
+
+  const restoreOrderPackaging = (id, index) => {
+    // Check if the button is already disabled
+    if (disabledButtons.includes(index)) {
+      return;
+    }
+
+    // Disable the button
+    setDisabledButtons((prevDisabledButtons) => [
+      ...prevDisabledButtons,
+      index,
+    ]);
+
     axios
       .post(`${API_BASE_URL}/RestoreOrderPacking`, {
         opid: id,
@@ -94,20 +119,12 @@ export const OrderPackagingEdit = () => {
           theme: "colored",
         });
         getOrdersDetails();
-        // if (response.data.success) {
-
-        //   Swal.fire(
-        //     "Admin login sucessfully!",
-        //     "You clicked the button!",
-        //     "success"
-        //   );
-        //   navigate("/admin");
-        // }
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   return (
     <>
       <Card title="Expense Item Management / Edit Form">
@@ -262,6 +279,7 @@ export const OrderPackagingEdit = () => {
                           {!isReadOnly && +v.status === 1 && (
                             <button
                               type="button"
+                              disabled={disabledPackagingButtons.includes(i)}
                               className="py-1"
                               onClick={() => doPackaging(i)}
                             >
@@ -272,8 +290,9 @@ export const OrderPackagingEdit = () => {
                           {!isReadOnly && +v.status === 0 && (
                             <button
                               type="button"
+                              disabled={disabledButtons.includes(i)}
                               onClick={() => {
-                                restoreOrderPackaging(v.od_id);
+                                restoreOrderPackaging(v.od_id, i);
                               }}
                             >
                               <i

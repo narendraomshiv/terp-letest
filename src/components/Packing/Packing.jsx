@@ -1,6 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import axios from "axios";
-import { useMemo, useState,useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -9,22 +9,20 @@ import { Card } from "../../card";
 import { TableView } from "../table";
 
 const EanPacking = () => {
-  // const { data, refetch } = useQuery("getToPack");
-  // console.log(data);
-
   const [data, setData] = useState([]);
-  const getEanPackaging=()=>{
+  const getEanPackaging = () => {
     axios.get(`${API_BASE_URL}/getToPack`).then((res) => {
       setData(res.data.data || []);
     });
+  };
 
-  }
   useEffect(() => {
     getEanPackaging();
   }, []);
 
   const [id, setId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [restoredRows, setRestoredRows] = useState([]);
 
   const form = useForm({
     defaultValues: {
@@ -44,40 +42,39 @@ const EanPacking = () => {
       }
     },
   });
+
   const closeModal = () => {
     setIsOpen(false);
   };
+
   const openModal = (id = null) => {
     setId(id);
     form.reset();
     setIsOpen(true);
   };
+
   const restoreEanPackage = (id) => {
+    if (restoredRows.includes(id)) {
+      return; // Do nothing if already restored
+    }
+
     axios
       .post(`${API_BASE_URL}/restoreEanPacking`, {
         sorting_id: id,
       })
       .then((response) => {
-        console.log(response);
         toast.success(" EAN Packing Restore Successfully", {
           autoClose: 1000,
           theme: "colored",
         });
+        setRestoredRows([...restoredRows, id]);
         getEanPackaging();
-        // if (response.data.success) {
-
-        //   Swal.fire(
-        //     "Admin login sucessfully!",
-        //     "You clicked the button!",
-        //     "success"
-        //   );
-        //   navigate("/admin");
-        // }
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   const columns = useMemo(
     () => [
       {
@@ -88,7 +85,6 @@ const EanPacking = () => {
         Header: "Name",
         accessor: "produce",
       },
-
       {
         Header: "Quantity",
         accessor: "available_qty",
@@ -131,6 +127,7 @@ const EanPacking = () => {
               <button
                 type="button"
                 onClick={() => restoreEanPackage(a.sorting_id)}
+                disabled={restoredRows.includes(a.sorting_id)}
               >
                 <i
                   className="mdi mdi-restore"
@@ -147,7 +144,7 @@ const EanPacking = () => {
         },
       },
     ],
-    []
+    [restoredRows]
   );
 
   return (

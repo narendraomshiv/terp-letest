@@ -164,8 +164,10 @@ export const links = [
 				//   Head: "Setup",
 
 				sublink: [
-					// { name: "Inventory", link: "/dashboard" },
 					{ name: "Available EAN", link: "/eanAvailable" },
+					{ name: "Available Produce", link: "/inventoryProduce" },
+					{ name: "Available Boxes", link: "/inventoryBoxes" },
+					{ name: "Available Packaging", link: "/inventoryPackaging" },
 				],
 			},
 		],
@@ -208,6 +210,7 @@ export const links = [
 					{ name: "Clearance Management", link: "/clearanceNew" },
 					{ name: "Transport Management", link: "/transportNew" },
 					{ name: "Freight Management", link: "/freightNew" },
+					{ name: "Users", link: "/user" },
 					{ name: "Other items", link: "/expenseItem" },
 				],
 			},

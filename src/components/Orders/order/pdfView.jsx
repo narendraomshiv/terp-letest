@@ -41,7 +41,7 @@ export const OrderPdfView = () => {
                             width: "10%",
                             padding: "0px 10px 0px 0px",
                             position: "relative",
-                            top: "-40px",
+                            top: "-18px",
                           }}
                         >
                           <img
@@ -53,8 +53,8 @@ export const OrderPdfView = () => {
                         <div style={{ display: "flex" }}>
                           <div style={{padding: "0px 10px 0px 0px" }}>
                             <h5 style={{ fontSize: 16, margin: "0px 0px" }}>Siam Eats Co.,Ltd</h5>
-                            <p style={{ marginTop: 10 }}>16/18 Mu 11 Khlong Nueng, Khlong Luang</p>
-                            <p style={{ marginTop: 10 }}>Tax ID 395561000010</p>
+                            <p style={{ marginTop: 2 }}>16/18 Mu 11 Khlong Nueng, Khlong Luang</p>
+                            <p style={{ marginTop: 2 }}>Tax ID 395561000010</p>
                           </div>
                           <div style={{ width: "70%" }}>
                             <h5
@@ -72,8 +72,8 @@ export const OrderPdfView = () => {
                             <table>
                               <tbody>
                                 <tr>
-                                  <td style={{ paddingRight: 20 }}>
-                                    <div style={{ display: "flex", marginTop: 10 }}>
+                                  <td style={{ padding: "0px 20px 0px 0px" }}>
+                                    <div style={{ display: "flex", marginTop: 2 }}>
                                       <div style={{ marginRight: 10, width: 170 }}>
                                         <p>
                                           {" "}
@@ -84,7 +84,7 @@ export const OrderPdfView = () => {
                                         <p>O-202309045</p>
                                       </div>
                                     </div>
-                                    <div style={{ display: "flex", marginTop: 10 }}>
+                                    <div style={{ display: "flex", marginTop:2 }}>
                                       <div style={{ marginRight: 10, width: 170 }}>
                                         <p>
                                           {" "}
@@ -95,7 +95,7 @@ export const OrderPdfView = () => {
                                         <p>O-202309045</p>
                                       </div>
                                     </div>
-                                    <div style={{ display: "flex", marginTop: 10 }}>
+                                    <div style={{ display: "flex", marginTop: 2 }}>
                                       <div style={{ marginRight: 10, width: 170 }}>
                                         <p>
                                           {" "}
@@ -108,7 +108,7 @@ export const OrderPdfView = () => {
                                     </div>
                                   </td>
                                   <td>
-                                    <div style={{ display: "flex", marginTop: 10 }}>
+                                    <div style={{ display: "flex", marginTop: 2 }}>
                                       <div style={{ marginRight: 10, width: 170 }}>
                                         <p>
                                           {" "}
@@ -119,7 +119,7 @@ export const OrderPdfView = () => {
                                         <p>12/2/2023</p>
                                       </div>
                                     </div>
-                                    <div style={{ display: "flex", marginTop: 10 }}>
+                                    <div style={{ display: "flex", marginTop: 2 }}>
                                       <div style={{ marginRight: 10, width: 170 }}>
                                         <p>
                                           {" "}
@@ -131,7 +131,7 @@ export const OrderPdfView = () => {
                                       </div>
                                     </div>
                                     <div
-                                      style={{ display: "flex", marginTop: 10, visibility: "hidden" }}
+                                      style={{ display: "flex", marginTop: 2, visibility: "hidden" }}
                                     >
                                       <div style={{ marginRight: 10, width: 170 }}>
                                         <p>
@@ -147,7 +147,7 @@ export const OrderPdfView = () => {
                                 </tr>
                               </tbody>
                             </table>
-                            <div style={{ marginTop: 15, height: 5, backgroundColor: "#1b2245" }}></div>
+                            <div style={{ marginTop: 2, height: 5, backgroundColor: "#1b2245" }}></div>
                           </div>
                         </div>
 
