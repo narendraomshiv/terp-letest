@@ -57,7 +57,25 @@ export const OrderPackagingEdit = () => {
     getOrdersDetails();
   }, []);
 
-  const doPackaging = async (index) => {
+  const getDetails = async (orderId, odId) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/getOrderPacking`, {
+        // Add any data you need to send in the request body
+
+        order_id: orderId,
+        od_id: odId,
+      });
+      console.log(response.data.data.buns,response.data.data.ean_per_od,response.data.data.Number_of_boxes,response.data.data.adjusted_gw_od ,data.data.net_weight); // Use response.data to access the response data
+
+      // Add any logic to handle the response data here
+    } catch (error) {
+      console.error("Error fetching data:", error);
+  
+    }
+  };
+
+  const doPackaging = async (index, orderId, odId) => {
+    console.log(index, orderId, odId);
     const data = details[index];
     if (!data.buns || !data.adjusted_gw_od)
       return toast.error("Please enter all values", {
@@ -65,6 +83,7 @@ export const OrderPackagingEdit = () => {
       });
     setIsLoading(true);
     loadingModal.fire();
+
     try {
       await axios
         .post(`${API_BASE_URL}/doOrderPacking`, {
@@ -198,117 +217,120 @@ export const OrderPackagingEdit = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {details.map((v, i) => (
-                      <tr className="rowCursorPointer align-middle">
-                        <td className="">
-                          {itf?.find((x) => x.itf_id == v.ITF)?.itf_name_en}
-                        </td>
-                        <td>
-                          {+v.status != 1 ? (
-                            <>{v.ean_per_od || 0}</>
-                          ) : (
-                            <input
-                              type="number"
-                              className="!w-24 mb-0"
-                              onChange={(e) => handleEditValues(i, e)}
-                              value={v.ean_per_od || 0}
-                              name="ean_per_od"
-                            />
-                          )}
-                        </td>
-                        <td>
-                          {
-                            unit?.find((x) => x.unit_id == v.itf_unit)
-                              ?.unit_name_en
-                          }
-                        </td>
-                        <td>
-                          {+v.status != 1 ? (
-                            <>{v.Number_of_boxes || 0}</>
-                          ) : (
-                            <input
-                              type="number"
-                              className="!w-24 mb-0"
-                              onChange={(e) => handleEditValues(i, e)}
-                              value={v.Number_of_boxes || 0}
-                              name="Number_of_boxes"
-                            />
-                          )}
-                        </td>
-                        <td>
-                          {+v.status != 1 ? (
-                            <>{v.net_weight || 0}</>
-                          ) : (
-                            <input
-                              type="number"
-                              className="!w-24 mb-0"
-                              onChange={(e) => handleEditValues(i, e)}
-                              value={v.net_weight || 0}
-                              name="net_weight"
-                            />
-                          )}
-                        </td>
-                        <td>
-                          {+v.status != 1 ? (
-                            <>{v.buns || 0}</>
-                          ) : (
-                            <input
-                              type="number"
-                              className="!w-24 mb-0"
-                              onChange={(e) => handleEditValues(i, e)}
-                              value={v.buns || 0}
-                              name="buns"
-                            />
-                          )}
-                        </td>
-                        <td>
-                          {+v.status != 1 ? (
-                            <>{v.adjusted_gw_od || 0}</>
-                          ) : (
-                            <input
-                              type="number"
-                              className="!w-24 mb-0"
-                              onChange={(e) => handleEditValues(i, e)}
-                              value={v.adjusted_gw_od || 0}
-                              name="adjusted_gw_od"
-                            />
-                          )}
-                        </td>
-
-                        <td>
-                          {!isReadOnly && +v.status === 1 && (
-                            <button
-                              type="button"
-                              disabled={disabledPackagingButtons.includes(i)}
-                              className="py-1"
-                              onClick={() => doPackaging(i)}
-                            >
-                              <i className="mdi mdi-package-variant-closed text-2xl" />
-                            </button>
-                          )}
-
-                          {!isReadOnly && +v.status === 0 && (
-                            <button
-                              type="button"
-                              disabled={disabledButtons.includes(i)}
-                              onClick={() => {
-                                restoreOrderPackaging(v.od_id, i);
-                              }}
-                            >
-                              <i
-                                className="mdi mdi-restore"
-                                style={{
-                                  width: "20px",
-                                  color: "#203764",
-                                  fontSize: "22px",
-                                  marginTop: "10px",
-                                }}
+                    {details.map((v, i) => {
+                      getDetails(v.order_id, v.od_id); // Call getDetails with orderId and odId
+                      return (
+                        <tr className="rowCursorPointer align-middle" key={i}>
+                          <td className="">
+                            {itf?.find((x) => x.itf_id == v.ITF)?.itf_name_en}
+                          </td>
+                          <td>
+                            {+v.status != 1 ? (
+                              <>{v.ean_per_od || 0}</>
+                            ) : (
+                              <input
+                                type="number"
+                                className="!w-24 mb-0"
+                                onChange={(e) => handleEditValues(i, e)}
+                                value={v.ean_per_od || 0}
+                                name="ean_per_od"
                               />
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
+                            )}
+                          </td>
+                          <td>
+                            {
+                              unit?.find((x) => x.unit_id == v.itf_unit)
+                                ?.unit_name_en
+                            }
+                          </td>
+                          <td>
+                            {+v.status != 1 ? (
+                              <>{v.Number_of_boxes || 0}</>
+                            ) : (
+                              <input
+                                type="number"
+                                className="!w-24 mb-0"
+                                onChange={(e) => handleEditValues(i, e)}
+                                value={v.Number_of_boxes || 0}
+                                name="Number_of_boxes"
+                              />
+                            )}
+                          </td>
+                          <td>
+                            {+v.status != 1 ? (
+                              <>{v.net_weight || 0}</>
+                            ) : (
+                              <input
+                                type="number"
+                                className="!w-24 mb-0"
+                                onChange={(e) => handleEditValues(i, e)}
+                                value={v.net_weight || 0}
+                                name="net_weight"
+                              />
+                            )}
+                          </td>
+                          <td>
+                            {+v.status != 1 ? (
+                              <>{v.buns || 0}</>
+                            ) : (
+                              <input
+                                type="number"
+                                className="!w-24 mb-0"
+                                onChange={(e) => handleEditValues(i, e)}
+                                value={v.buns || 0}
+                                name="buns"
+                              />
+                            )}
+                          </td>
+                          <td>
+                            {+v.status != 1 ? (
+                              <>{v.adjusted_gw_od || 0}</>
+                            ) : (
+                              <input
+                                type="number"
+                                className="!w-24 mb-0"
+                                onChange={(e) => handleEditValues(i, e)}
+                                value={v.adjusted_gw_od || 0}
+                                name="adjusted_gw_od"
+                              />
+                            )}
+                          </td>
+
+                          <td>
+                            {!isReadOnly && +v.status === 1 && (
+                              <button
+                                type="button"
+                                disabled={disabledPackagingButtons.includes(i)}
+                                className="py-1"
+                                onClick={() => doPackaging(i)}
+                              >
+                                <i className="mdi mdi-package-variant-closed text-2xl" />
+                              </button>
+                            )}
+
+                            {!isReadOnly && +v.status === 0 && (
+                              <button
+                                type="button"
+                                disabled={disabledButtons.includes(i)}
+                                onClick={() => {
+                                  restoreOrderPackaging(v.od_id, i);
+                                }}
+                              >
+                                <i
+                                  className="mdi mdi-restore"
+                                  style={{
+                                    width: "20px",
+                                    color: "#203764",
+                                    fontSize: "22px",
+                                    marginTop: "10px",
+                                  }}
+                                />
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

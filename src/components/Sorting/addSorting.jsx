@@ -19,18 +19,20 @@ const NewSorting = () => {
 	}
 
 	const [state, setState] = useState(defaultState)
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
 	const handleChange = (event) => {
 		const { name, value } = event.target
-		setState((prevState) => {
-			return {
-				...prevState,
-				[name]: value,
-			}
-		})
+		setState((prevState) => ({
+			...prevState,
+			[name]: value,
+		}))
 	}
 
 	const addBank = () => {
+		if (isButtonDisabled) return;
+		setIsButtonDisabled(true);
+
 		axios
 			.post(`${API_BASE_URL}/addsorting`, state)
 			.then((response) => {
@@ -40,7 +42,6 @@ const NewSorting = () => {
 					theme: "colored",
 				})
 				navigate("/sorting")
-				return
 			})
 			.catch((error) => {
 				console.log(error)
@@ -136,6 +137,7 @@ const NewSorting = () => {
 					<div className="card-footer">
 						<button
 							onClick={addBank}
+							disabled={isButtonDisabled}
 							className="btn btn-primary"
 							type="submit"
 							name="signup"

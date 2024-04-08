@@ -5,6 +5,8 @@ import { toast } from "react-toastify"
 import { API_BASE_URL } from "../../Url/Url"
 
 const Acceptreceiving = () => {
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+
 	const location = useLocation()
 	const navigate = useNavigate()
 	const { from } = location.state || {}
@@ -47,25 +49,28 @@ const Acceptreceiving = () => {
 	}
 
 	const addBank = () => {
+		if (isButtonDisabled) return;
+		setIsButtonDisabled(true);
+	
 		axios
 			.post(`${API_BASE_URL}/addreceving`, {
 				...state,
 				pod_type_id: from?.pod_type_id,
 			})
 			.then((response) => {
-				console.log(response, "Check responseee")
+				console.log(response, "Check response");
 				toast.success("receiving Added Successfully", {
 					autoClose: 1000,
 					theme: "colored",
-				})
-				navigate("/receiving")
-				return
+				});
+				navigate("/receiving");
 			})
 			.catch((error) => {
-				console.log(error)
-			})
-	}
-
+				console.log(error);
+				setIsButtonDisabled(false); // Re-enable the button on error
+			});
+	};
+	
 	return (
 		<main className="main-content">
 			<div className="container-fluid">
@@ -206,6 +211,7 @@ const Acceptreceiving = () => {
 												<button
 													onClick={addBank}
 													className="btn btn-primary"
+													disabled={isButtonDisabled}
 													type="submit"
 													name="signup"
 												>

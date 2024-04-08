@@ -14,6 +14,7 @@ const CreateOrder = () => {
   const { from } = location.state || {};
   const isReadOnly = from?.isReadOnly;
   const [isLoading, setIsLoading] = useState(false);
+
   const loadingModal = MySwal.mixin({
     title: "Loading...",
     didOpen: () => {
@@ -79,7 +80,9 @@ const CreateOrder = () => {
       enabled: !!state.order_id,
     }
   );
-  console.log(summary)
+  const [orderId, setOrderId] = useState("");
+  console.log(orderId);
+
   useEffect(() => {
     if (state.order_id) getOrdersDetails();
   }, []);
@@ -263,7 +266,7 @@ const CreateOrder = () => {
   const defaultDetailsValue = useMemo(() => {
     return details?.[selectedDetails] || null;
   }, [selectedDetails]);
-  console.log(defaultDetailsValue)
+  console.log(defaultDetailsValue);
   const [toEditDetails, setToEditDetails] = useState({});
   const closeModal = () => {
     setIsOpenModal(false);
@@ -309,6 +312,8 @@ const CreateOrder = () => {
         },
         details: values,
       });
+      setOrderId(data?.order_id);
+      // console.log(data.order_id)
       toast.success("Order detail added successfully");
       setState((prevState) => {
         return {
@@ -339,6 +344,23 @@ const CreateOrder = () => {
       };
     });
   };
+  const reCalculate = () => {
+    axios
+      .post(`${API_BASE_URL}/RecalculateOrder`, {
+        order_id: summary?.order_id || orderId,
+      })
+      .then((response) => {
+        console.log(response);
+        toast.success("Order Recalculate  Successfully", {
+          autoClose: 1000,
+          theme: "colored",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  console.log(state);
   return (
     <>
       <Card
@@ -671,6 +693,11 @@ const CreateOrder = () => {
                           ITF to complete a box
                         </div>
                       )}
+                      <div className="addBtnEan mb-4">
+                        <button type="button" onClick={reCalculate}>
+                          Recalculate
+                        </button>
+                      </div>
                     </div>
                     <div
                       id="datatable_wrapper"
@@ -713,7 +740,8 @@ const CreateOrder = () => {
                               <td>{v.net_weight}</td>
                               <td>{v.NEW_UNIT_FX}</td>
                               <td>
-                                {(+v.adjusted_price || 0).toLocaleString()}
+                                {v.adjusted_price}
+                                {/* {(+v.adjusted_price || 0).toLocaleString()} */}
                               </td>
                               <td>{v.NEW_Profit_percentage}%</td>
                               <td>
