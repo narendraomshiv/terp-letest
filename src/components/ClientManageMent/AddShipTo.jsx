@@ -44,8 +44,8 @@ const AddShipTo = () => {
       [name]: name === "Commission_Currency" && value === "" ? "FX" : newValue,
     }));
   };
-  
-  
+
+
 
   const { data: brands } = useQuery("getBrand");
   const { data: client } = useQuery("getAllClients");
@@ -58,8 +58,7 @@ const AddShipTo = () => {
   const update = () => {
     axios
       .post(
-        `${API_BASE_URL}/${
-          from?.consignee_id ? "updateConsignee" : "createConsignee"
+        `${API_BASE_URL}/${from?.consignee_id ? "updateConsignee" : "createConsignee"
         }`,
         state // Use the updated state directly
       )
@@ -387,7 +386,7 @@ const AddShipTo = () => {
                         fontSize: "20px",
                       }}
                     >
-                      Notify :
+                      Notify
                     </h6>
 
                     <div className="form-group col-lg-6">
@@ -439,6 +438,62 @@ const AddShipTo = () => {
                         name="notify_address"
                         onChange={handleChange}
                       />
+                    </div>
+                    <div className="col-lg-12">
+                      <h6
+                        className="mt-4"
+                        style={{
+                          fontWeight: "600",
+                          marginBottom: "10px",
+                          fontSize: "20px",
+                        }}
+                      >
+                        Bank Informations
+                      </h6>
+                      <div className="row ">
+                        <div className="form-group col-lg-4">
+                          <h6>Bank Name</h6>
+
+                          <input
+                            onChange={handleChange}
+                            type="text"
+                            id="name_en"
+                            name="client_bank_account"
+                            className="form-control"
+                            placeholder="axis "
+                            value={state.client_bank_account}
+                          />
+                        </div>
+                        <div className="form-group col-lg-4">
+                          <h6>Account Name</h6>
+                          <input
+                            onChange={handleChange}
+                            type="text"
+                            id="name_en"
+                            name="client_bank_name"
+                            className="form-control"
+                            placeholder="xxxxx "
+                            value={state.client_bank_name}
+                          />
+                        </div>
+                        <div className="form-group col-lg-4">
+                          <h6>Account Number</h6>
+                          <input
+                            onChange={handleChange}
+                            type="text"
+                            id="name_en"
+                            name="client_bank_number"
+                            className="form-control"
+                            placeholder="3345345435 "
+                            value={state.client_bank_number}
+                          />
+                        </div>
+                      </div>
+                      <div className="row">
+                        <Link style={{width:"170px"}} className="btn btn-danger" to="/">
+                          Add Contact
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </form>

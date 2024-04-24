@@ -12,7 +12,7 @@ const NewEanPacking = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { from } = location.state || {};
-  console.log(from);
+  console.log(from.Produce_id);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const loadingModal = MySwal.mixin({
@@ -56,6 +56,8 @@ const NewEanPacking = () => {
 
   const [packingCommonId, setPackingCommonId] = useState(null);
   const [datatable, setDatatable] = useState([]);
+  const [assigned, setAssigned] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState("");
   console.log(state.start_time);
   const { data: unitType } = useQuery("getAllUnit");
   const { data: brands } = useQuery("getBrand");
@@ -138,7 +140,7 @@ const NewEanPacking = () => {
     loadingModal.fire();
 
     axios.post(`${API_BASE_URL}/getPackingCommon`, request).then((response) => {
-      console.log(response)
+      console.log(response);
       if (response.data.data) {
         const { packing_common_id, number_of_staff, start_time, end_time } =
           response.data.data;
@@ -193,7 +195,7 @@ const NewEanPacking = () => {
   };
 
   const checkPackCommonId = async () => {
-    console.log(packingCommonId)
+    console.log(packingCommonId);
     if (!packingCommonId) {
       const { qty_used, number_of_staff, start_time, end_time } = state;
 
@@ -247,6 +249,7 @@ const NewEanPacking = () => {
       number_of_staff: state.number_of_staff,
       start_time: state.start_time,
       end_time: state.end_time,
+      assigned_order: selectedOrder,
     };
 
     axios
@@ -266,6 +269,25 @@ const NewEanPacking = () => {
         return toast.error(error);
       });
   };
+
+  const handleNewSlecter = () => {
+    axios
+      .post(`https://siameats.com/api//AssignOrderDropDownList`, {
+        produce_id: from.Produce_id,
+      })
+      .then((response) => {
+        console.log(response.data.data[0], "this is new item");
+        setAssigned(response.data.data[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    handleNewSlecter();
+  }, []);
+
+  console.log(selectedOrder, "this is selected value");
 
   return (
     <main className="main-content">
@@ -461,7 +483,7 @@ const NewEanPacking = () => {
                     options={eanData
                       ?.filter((v) => v.ean_name_en.includes(from?.produce))
                       ?.map((item) => ({
-                        id: item.ean_id,
+                        id: item.ean_id, //
                         name: item.ean_name_en,
                       }))}
                     value={data?.ean_id}
@@ -498,6 +520,21 @@ const NewEanPacking = () => {
                     value={data?.brand_id}
                     onChange={(e) => handleChangeData(e, "brand_id")}
                   />
+                </div>
+
+                <div className="form-group mb-3">
+                  <label>Assigned Order</label>
+                  <select
+                    value={selectedOrder}
+                    onChange={(e) => setSelectedOrder(e.target.value)}
+                  >
+                    <option value="">Select...</option>
+                    {assigned.map((item, index) => (
+                      <option key={index} value={item.od_id}>
+                        {item.Dropdown}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="flex gap-2 justify-end">
                   <button

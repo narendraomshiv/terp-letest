@@ -10,8 +10,9 @@ import { ComboBox } from "../combobox";
 export const EanRepack = () => {
   const location = useLocation();
   const navigate = useNavigate();
+ 
   const { from } = location.state || {};
-  console.log(from);
+  
 
   const form = useForm({
     defaultValues: {
@@ -44,12 +45,46 @@ export const EanRepack = () => {
       }
     },
   });
+
+  // const handleNewSlecter = () => {
+  //   axios
+  //     .post(`https://siameats.com/api/AssignOrderDropDownList`,{
+  //       produce_id:from.Produce_id
+  //     })
+  //     .then((response) => {
+  //       console.log(response.data.data[0], "this is new item");
+  //       setAssigned(response.data.data[0]);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  // useEffect(() => {
+  //   handleNewSlecter();
+  // }, []);
+
+
   const { data: units } = useQuery("getAllUnit");
   const { data: brands } = useQuery("getBrand");
   const { data: eanList } = useQuery(
     `getAdjustEanStockById?id=${from?.ean_id}`
   );
-
+  const fetchUsers = () => {
+    return axios.post(`${API_BASE_URL}/dropDownAdjustEan`, {
+      produce_id: from.produce_id,
+    })
+    .then((response) => {
+      console.log(response.data.data);
+      return response.data.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+  };
+  
+  const { data, status } = useQuery("users", fetchUsers);
+  console.log(data,'this is ENS DAta')
   return (
     <Card title={"Repack Ean"}>
       <div className="formCreate ">
@@ -196,9 +231,9 @@ export const EanRepack = () => {
                                       <ComboBox
                                         value={field.state.value}
                                         onChange={(e) => field.handleChange(e)}
-                                        options={(eanList || [])?.map((v) => ({
+                                        options={(data || [])?.map((v) => ({
                                           id: v?.ean_id,
-                                          name: v?.ean_name_en,
+                                          name: v?.New_ean_name_en,
                                         }))}
                                       />
                                     )}

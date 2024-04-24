@@ -115,6 +115,7 @@ import InventoryBoxes from "./components/operation/InventoryBoxes";
 import UpdateUser from "./components/Setup/user/UpdateUser";
  
 function App() {
+  console.log('time:6:24,date:17/04/2024')
   const [isAuthenticate] = useContext(IsLoginAuthenticateContext);
   return (
     <>

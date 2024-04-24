@@ -16,55 +16,62 @@ export const OrderPdfView = () => {
       <button onClick={toPDF} type="button" className="btn btn-primary">
         Download
       </button>
-      <div className="w-full">
-        <div
-          ref={targetRef}
-          className="bg-white print:bg-none p-4 w-[95vw] h-[195mm]"
+
+
+      <div style={{width:"900px" }} ref={targetRef}
+        className="bg-white print:bg-none">
+        <table
+          style={{
+            width: "100%",
+            paddingBottom: 30,
+            background: "#b5b8bd1f",
+            padding: "5px 20px",
+            display: "block"
+          }}
         >
-          <table
-            style={{
-              width: "100%",
-              "padding-bottom": "30px",
-              background: "#b5b8bd1f",
-            }}
-          >
-            <tbody>
-              <tr>
-                <td>
-                <table
-                    style={{ width: "100%", padding: "10px", display: "block" }}
-                  >
-                    <tbody>
-                      <tr>
-                        <td
-                          style={{
-                            width: "10%",
-                            padding: "0px 10px 0px 0px",
-                            position: "relative",
-                            top: "-18px",
-                          }}
-                        >
-                          <img
-                            style={{ height: "80px" }}
-                            src={logo}
-                            alt
-                          />
-                        </td>
+          <tbody>
+            <tr>
+              <td>
+                <table style={{ width: "100%", padding: 10, display: "block" }}>
+                  <tbody>
+                    <tr>
+                      <td
+                        style={{
+                          width: 90,
+                          padding: "0px 10px 0px 0px",
+                          position: "relative",
+                          top: "-38px"
+                        }}
+                      >
+                        <img
+                          style={{ height: 60 }}
+                          src="../assets/img/newLOgo.png"
+                          alt=""
+                        />
+                      </td>
+                      <td style={{ width: "95%" }}>
                         <div style={{ display: "flex" }}>
-                          <div style={{padding: "0px 10px 0px 0px" }}>
-                            <h5 style={{ fontSize: 16, margin: "0px 0px" }}>Siam Eats Co.,Ltd</h5>
-                            <p style={{ marginTop: 2 }}>16/18 Mu 11 Khlong Nueng, Khlong Luang</p>
-                            <p style={{ marginTop: 2 }}>Tax ID 395561000010</p>
+                          <div style={{ width: 300, padding: "0px 10px 0px 0px" }}>
+                            <h5 style={{ fontSize: 16, margin: "0px 0px" }}>
+                              Siam Eats Co.,
+                            </h5>
+                            <p style={{ marginTop: 10 }}>
+                              Ltd. (0395561000010) 16/18 Mu 11
+                            </p>
+                            <p style={{ marginTop: 10, whiteSpace: "wrap" }}>
+                              Khlong Nueng, Khlong Luang, Pathum Thani 12120 THAILAND
+                            </p>
                           </div>
-                          <div style={{ width: "70%" }}>
+                          <div style={{ width: "100%" }}>
                             <h5
                               style={{
                                 background: "#1b2245",
-                                padding: 7,
-                                color: "#fff",
+                               color: "#fff",
                                 textAlign: "center",
                                 fontSize: 16,
-                                margin: "0px 0px"
+                                paddingTop:"5px",
+                               paddingBottom:"20px",
+                               height:"30px",
                               }}
                             >
                               ออเดอร์ /โหลด
@@ -72,35 +79,44 @@ export const OrderPdfView = () => {
                             <table>
                               <tbody>
                                 <tr>
-                                  <td style={{ padding: "0px 20px 0px 0px" }}>
-                                    <div style={{ display: "flex", marginTop: 2 }}>
-                                      <div style={{ marginRight: 10, width: 170 }}>
+                                  <td style={{ paddingRight: 20 }}>
+                                    <div style={{ display: "flex", marginTop: 5 }}>
+                                      <div style={{ marginRight: 10, width: 100 }}>
                                         <p>
                                           {" "}
-                                          <strong>เลขออเดอร์ :</strong>{" "}
+                                          <strong>เลขออเดอร์ #</strong>{" "}
                                         </p>
+                                      </div>
+                                      <div style={{ width: 10 }}>
+                                        <strong>:</strong>
                                       </div>
                                       <div>
                                         <p>O-202309045</p>
                                       </div>
                                     </div>
-                                    <div style={{ display: "flex", marginTop:2 }}>
-                                      <div style={{ marginRight: 10, width: 170 }}>
+                                    <div style={{ display: "flex", marginTop: 5 }}>
+                                      <div style={{ marginRight: 10, width: 100 }}>
                                         <p>
                                           {" "}
-                                          <strong>AWB :</strong>{" "}
+                                          <strong>เลขสั่งซื้อ </strong>{" "}
                                         </p>
+                                      </div>
+                                      <div style={{ width: 10 }}>
+                                        <strong>:</strong>
                                       </div>
                                       <div>
                                         <p>O-202309045</p>
                                       </div>
                                     </div>
-                                    <div style={{ display: "flex", marginTop: 2 }}>
-                                      <div style={{ marginRight: 10, width: 170 }}>
+                                    <div style={{ display: "flex", marginTop: 10 }}>
+                                      <div style={{ marginRight: 10, width: 100 }}>
                                         <p>
                                           {" "}
-                                          <strong>รายละเอียด การสั่งซื้อ :</strong>{" "}
+                                          <strong>AWB</strong>{" "}
                                         </p>
+                                      </div>
+                                      <div style={{ width: 10 }}>
+                                        <strong>:</strong>
                                       </div>
                                       <div>
                                         <p>O-202309045</p>
@@ -108,36 +124,49 @@ export const OrderPdfView = () => {
                                     </div>
                                   </td>
                                   <td>
-                                    <div style={{ display: "flex", marginTop: 2 }}>
-                                      <div style={{ marginRight: 10, width: 170 }}>
+                                    <div style={{ display: "flex", marginTop: 10 }}>
+                                      <div style={{ marginRight: 10, width: 100 }}>
                                         <p>
                                           {" "}
-                                          <strong>วันที่ :</strong>{" "}
+                                          <strong>เลขออเดอร์</strong>{" "}
                                         </p>
                                       </div>
+                                      <div style={{ width: 10 }}>
+                                        <strong>:</strong>
+                                      </div>
                                       <div>
-                                        <p>12/2/2023</p>
+                                        <p>O-202309045</p>
                                       </div>
                                     </div>
-                                    <div style={{ display: "flex", marginTop: 2 }}>
-                                      <div style={{ marginRight: 10, width: 170 }}>
+                                    <div style={{ display: "flex", marginTop: 10 }}>
+                                      <div style={{ marginRight: 10, width: 100 }}>
                                         <p>
                                           {" "}
-                                          <strong>เวลาโหลด :</strong>{" "}
+                                          <strong>เลขสั่งซื้อ</strong>{" "}
                                         </p>
                                       </div>
+                                      <div style={{ width: 10 }}>
+                                        <strong>:</strong>
+                                      </div>
                                       <div>
-                                        <p>12:00(pm)</p>
+                                        <p>O-202309045</p>
                                       </div>
                                     </div>
                                     <div
-                                      style={{ display: "flex", marginTop: 2, visibility: "hidden" }}
+                                      style={{
+                                        display: "flex",
+                                        marginTop: 10,
+                                        visibility: "hidden"
+                                      }}
                                     >
-                                      <div style={{ marginRight: 10, width: 170 }}>
+                                      <div style={{ marginRight: 10, width: 100 }}>
                                         <p>
                                           {" "}
-                                          <strong>วันที่: </strong>{" "}
+                                          <strong>เลขสั่งซื้อ </strong>{" "}
                                         </p>
+                                      </div>
+                                      <div style={{ width: 10 }}>
+                                        <strong>:</strong>
                                       </div>
                                       <div>
                                         <p>O-202309045</p>
@@ -147,152 +176,155 @@ export const OrderPdfView = () => {
                                 </tr>
                               </tbody>
                             </table>
-                            <div style={{ marginTop: 2, height: 5, backgroundColor: "#1b2245" }}></div>
+                            <div
+                              style={{
+                                marginTop: 15,
+                                height: 5,
+                                backgroundColor: "#1b2245"
+                              }}
+                            ></div>
                           </div>
                         </div>
-
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table
-                    className="tableBorder"
-                    style={{ width: "100%", padding: "10px" }}
-                  >
-                    <tbody>
-                      <tr className="darkTh">
-                        <th colSpan={4}>รายละเอียดสินค้า</th>
-                        <th colSpan={3}>ออเดอร์</th>
-                        <th colSpan={2}>โหลด</th>
-                      </tr>
-                      <tr>
-                        <th>สินค้า</th>
-                        <th>แพ็ค</th>
-                        <th>แพ็ค</th>
-                        <th>สติ๊กเกอร์</th>
-                        <th>กก</th>
-                        <th>กล่อง</th>
-                        <th>แพ็ค/ชิ้น</th>
-                        <th>กล่อง</th>
-                        <th>พาเลท</th>
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>F 9.2 V</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>F 9.2 V</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                      <tr>
-                        <td>พริกแดง / Chilli Red - 100g x 80</td>
-                        <td>311</td>
-                        <td>F 9.2 V</td>
-                        <td>F 9.2 V</td>
-                        <td>16.00</td>
-                        <td>2</td>
-                        <td>160</td>
-                        <td />
-                        <td />
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table className="tableBorder" style={{ width: "100%", padding: 10 }}>
+                  <tbody>
+                    <tr className="darkTh">
+                      <th colSpan={4}>รายละเอียดสินค้า</th>
+                      <th colSpan={3}>ออเดอร์</th>
+                      <th colSpan={2}>โหลด</th>
+                    </tr>
+                    <tr>
+                      <th>สินค้า</th>
+                      <th>แพ็ค</th>
+                      <th>แพ็ค</th>
+                      <th>สติ๊กเกอร์</th>
+                      <th>กก</th>
+                      <th>กล่อง</th>
+                      <th>แพ็ค/ชิ้น</th>
+                      <th>กล่อง</th>
+                      <th>พาเลท</th>
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>F 9.2 V</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>F 9.2 V</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <td>พริกแดง / Chilli Red - 100g x 80</td>
+                      <td>311</td>
+                      <td>F 9.2 V</td>
+                      <td>F 9.2 V</td>
+                      <td>16.00</td>
+                      <td>2</td>
+                      <td>160</td>
+                      <td />
+                      <td />
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
     </>
   );
 };

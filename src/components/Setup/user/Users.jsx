@@ -59,7 +59,7 @@ const Users = () => {
       },
       {
         Header: "Username",
-        accessor: "user_name",
+        accessor: "email",
       },
       {
         Header: "Company",

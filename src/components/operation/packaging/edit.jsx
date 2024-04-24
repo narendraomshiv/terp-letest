@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { API_BASE_URL } from "../../../Url/Url";
 import { Card } from "../../../card";
 import MySwal from "../../../swal";
-
+import { Button, Modal } from "react-bootstrap";
 export const OrderPackagingEdit = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,7 +25,14 @@ export const OrderPackagingEdit = () => {
   });
   const isReadOnly = from?.isReadOnly;
   const [isLoading, setIsLoading] = useState(false);
+  const [stock, setStock] = useState("");
   const [details, setDetails] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [bonus, setBonus] = useState("");
+  const [adjustedId, setAdjustedId] = useState("");
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [disabledPackagingButtons, setDisabledPackagingButtons] = useState([]);
 
@@ -53,31 +60,51 @@ export const OrderPackagingEdit = () => {
   const { data: unit } = useQuery("getAllUnit");
   const { data: itf } = useQuery("getItf");
 
-  useEffect(() => {
-    getOrdersDetails();
-  }, []);
-
   const getDetails = async (orderId, odId) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/getOrderPacking`, {
-        // Add any data you need to send in the request body
-
         order_id: orderId,
         od_id: odId,
       });
-      console.log(response.data.data.buns,response.data.data.ean_per_od,response.data.data.Number_of_boxes,response.data.data.adjusted_gw_od ,data.data.net_weight); // Use response.data to access the response data
+      console.log(response);
 
-      // Add any logic to handle the response data here
+      if (response.data.data.buns !== undefined) {
+        // Merge the new bonus and adjusted_gw_od values with the existing details array
+        setDetails((prevDetails) =>
+          prevDetails.map((item) =>
+            item.order_id === orderId && item.od_id === odId
+              ? {
+                  ...item,
+                  bonus: response.data.data.buns,
+                  adjusted_gw_od: response.data.data.adjusted_gw_od,
+                  order_packing_id: response.data.data.order_packing_id,
+                  ean_per_od: response.data.data.new_pc_od,
+                  Number_of_boxes: response.data.data.new_box_od,
+                  net_weight: response.data.data.new_nw_od,
+                }
+              : item
+          )
+        );
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
-  
     }
   };
 
+  useEffect(() => {
+    getOrdersDetails();
+    details.forEach((v) => {
+      if (+v.status !== 1 && !v.bonus && !v.adjusted_gw_od) {
+        getDetails(v.order_id, v.od_id); // Call getDetails with orderId and odId
+      }
+    });
+  }, []);
+console.log(stock)
+  console.log(bonus, adjustedId);
   const doPackaging = async (index, orderId, odId) => {
     console.log(index, orderId, odId);
     const data = details[index];
-    if (!data.buns || !data.adjusted_gw_od)
+    if (!data.bonus || !data.adjusted_gw_od)
       return toast.error("Please enter all values", {
         theme: "colored",
       });
@@ -98,11 +125,21 @@ export const OrderPackagingEdit = () => {
           toast.success("Order packaged successfully", {
             theme: "colored",
           });
+          getOrdersDetails();
         });
     } catch (e) {
-      toast.error("Something went wrong", {
-        theme: "colored",
-      });
+      console.log(e);
+      if (e.response && e.response.status === 400) {
+        console.log(e.response.data.message)
+        setStock(e.response.data.message);
+        console.log(">>>>>>>>>>>>");
+        // Open a modal here
+        setShow(true);
+      } else {
+        toast.error("Something went wrong", {
+          theme: "colored",
+        });
+      }
     } finally {
       loadingModal.close();
       setIsLoading(false);
@@ -116,6 +153,7 @@ export const OrderPackagingEdit = () => {
   };
 
   const restoreOrderPackaging = (id, index) => {
+    console.log(id);
     // Check if the button is already disabled
     if (disabledButtons.includes(index)) {
       return;
@@ -207,6 +245,7 @@ export const OrderPackagingEdit = () => {
                   <thead>
                     <tr>
                       <th>ITF</th>
+                      <th> Brand </th>
                       <th>Quantity</th>
                       <th>Unit</th>
                       <th>Number of Box</th>
@@ -218,21 +257,28 @@ export const OrderPackagingEdit = () => {
                   </thead>
                   <tbody>
                     {details.map((v, i) => {
-                      getDetails(v.order_id, v.od_id); // Call getDetails with orderId and odId
+                      if (+v.status !== 1 && !v.bonus && !v.adjusted_gw_od) {
+                        getDetails(v.order_id, v.od_id); // Call getDetails with orderId and odId
+                      }
+
                       return (
                         <tr className="rowCursorPointer align-middle" key={i}>
                           <td className="">
                             {itf?.find((x) => x.itf_id == v.ITF)?.itf_name_en}
                           </td>
                           <td>
+                            <>{v.Brand_name}</>
+                          </td>
+                          <td>
                             {+v.status != 1 ? (
-                              <>{v.ean_per_od || 0}</>
+                              <>{v.ean_per_od}</>
                             ) : (
                               <input
                                 type="number"
                                 className="!w-24 mb-0"
                                 onChange={(e) => handleEditValues(i, e)}
-                                value={v.ean_per_od || 0}
+                                value={v.ean_per_od}
+                                defaultValue="0"
                                 name="ean_per_od"
                               />
                             )}
@@ -245,13 +291,14 @@ export const OrderPackagingEdit = () => {
                           </td>
                           <td>
                             {+v.status != 1 ? (
-                              <>{v.Number_of_boxes || 0}</>
+                              <>{v.Number_of_boxes}</>
                             ) : (
                               <input
                                 type="number"
                                 className="!w-24 mb-0"
                                 onChange={(e) => handleEditValues(i, e)}
-                                value={v.Number_of_boxes || 0}
+                                value={v.Number_of_boxes}
+                                defaultValue="0"
                                 name="Number_of_boxes"
                               />
                             )}
@@ -264,33 +311,36 @@ export const OrderPackagingEdit = () => {
                                 type="number"
                                 className="!w-24 mb-0"
                                 onChange={(e) => handleEditValues(i, e)}
-                                value={v.net_weight || 0}
+                                value={v.net_weight}
+                                defaultValue="0"
                                 name="net_weight"
                               />
                             )}
                           </td>
                           <td>
-                            {+v.status != 1 ? (
-                              <>{v.buns || 0}</>
+                            {+v.status !== 1 ? (
+                              v.bonus || 0
                             ) : (
                               <input
                                 type="number"
                                 className="!w-24 mb-0"
                                 onChange={(e) => handleEditValues(i, e)}
-                                value={v.buns || 0}
-                                name="buns"
+                                defaultValue="0"
+                                value={v.bonus}
+                                name="bonus"
                               />
                             )}
                           </td>
                           <td>
-                            {+v.status != 1 ? (
-                              <>{v.adjusted_gw_od || 0}</>
+                            {+v.status !== 1 ? (
+                              v.adjusted_gw_od || 0
                             ) : (
                               <input
                                 type="number"
                                 className="!w-24 mb-0"
                                 onChange={(e) => handleEditValues(i, e)}
-                                value={v.adjusted_gw_od || 0}
+                                defaultValue="0"
+                                value={v.adjusted_gw_od}
                                 name="adjusted_gw_od"
                               />
                             )}
@@ -304,7 +354,7 @@ export const OrderPackagingEdit = () => {
                                 className="py-1"
                                 onClick={() => doPackaging(i)}
                               >
-                                <i className="mdi mdi-package-variant-closed text-2xl" />
+                                <i className="mdi mdi-package-variant-closed text-2xl"></i>
                               </button>
                             )}
 
@@ -313,7 +363,7 @@ export const OrderPackagingEdit = () => {
                                 type="button"
                                 disabled={disabledButtons.includes(i)}
                                 onClick={() => {
-                                  restoreOrderPackaging(v.od_id, i);
+                                  restoreOrderPackaging(v.order_packing_id, i);
                                 }}
                               >
                                 <i
@@ -342,6 +392,30 @@ export const OrderPackagingEdit = () => {
             Cancel
           </Link>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
+                Stock Check
+              </h1>
+              <button
+                style={{ color: "#fff", fontSize: "30px" }}
+                type="button"
+                onClick={() => setShow(false)}
+              >
+                <i class="mdi mdi-close"></i>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="eanCheck">
+                <p>{stock.message? stock.message:"NULL"}</p>
+                <p>{stock.message2? stock.message2:"NULL"}</p>
+                <p>{stock.message3? stock.message3:"NULL"}</p>
+              </div>
+            </div>
+            <div className="modal-footer"></div>
+          </div>
+        </Modal>
       </Card>
     </>
   );

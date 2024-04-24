@@ -1367,7 +1367,7 @@ input.userCheck {
   color: var(--blue);
   font-size: 22px;
 }
-/ user reset / .resetForm input {
+  .resetForm input {
   border: 2px solid #203764;
   width: 100%;
   border-radius: 5px;
@@ -1394,4 +1394,40 @@ input.userCheck {
 }
 .resetBtn {
   padding-top: 30px;
+}
+ 
+.modal-header {
+  padding: 0px 10px !important;
+  background: #203764;
+  color: #ffff;
+  border: unset;
+}
+.modal-header h1{
+  color: #fff;
+}
+.modal-footer {
+  background: #203764;
+  padding: 10px 10px !important;
+
+   border: unset !important;
+}
+.modal-footer button {
+  background: #fff !important;
+   border: unset !important;
+   color: #000 !important;
+}
+.eanCheck p {
+  border: 2px solid #203764;
+  margin-bottom: 10px;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+  width: 100%;
+}
+.modal-body {
+  padding: 25px;
+}
+.submitButton{
+  background-color: #203764 !important;
 }

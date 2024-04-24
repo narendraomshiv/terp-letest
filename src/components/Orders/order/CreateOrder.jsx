@@ -266,8 +266,11 @@ const CreateOrder = () => {
   const defaultDetailsValue = useMemo(() => {
     return details?.[selectedDetails] || null;
   }, [selectedDetails]);
-  console.log(defaultDetailsValue);
+
   const [toEditDetails, setToEditDetails] = useState({});
+  console.log(toEditDetails?.brand_id );
+  console.log(defaultDetailsValue?.brand_id);
+console.log(defaultDetailsValue)
   const closeModal = () => {
     setIsOpenModal(false);
     setSelectedDetails(null);
@@ -733,7 +736,7 @@ const CreateOrder = () => {
                               ].join(" ")}
                             >
                               <td>{v.itf_name_en}</td>
-                              <td>{v.Brand_name}</td>
+                              <td>{v.brand_name}</td>
                               <td>{v.itf_quantity}</td>
                               <td>{v.unit_name_en}</td>
                               <td>{v.Number_of_boxes}</td>
