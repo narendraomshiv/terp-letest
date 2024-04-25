@@ -80,6 +80,7 @@ const CreateOrder = () => {
       enabled: !!state.order_id,
     }
   );
+  console.log(summary);
   const [orderId, setOrderId] = useState("");
   console.log(orderId);
 
@@ -268,9 +269,9 @@ const CreateOrder = () => {
   }, [selectedDetails]);
 
   const [toEditDetails, setToEditDetails] = useState({});
-  console.log(toEditDetails?.brand_id );
+  console.log(toEditDetails?.brand_id);
   console.log(defaultDetailsValue?.brand_id);
-console.log(defaultDetailsValue)
+  console.log(defaultDetailsValue);
   const closeModal = () => {
     setIsOpenModal(false);
     setSelectedDetails(null);
@@ -804,11 +805,12 @@ console.log(defaultDetailsValue)
                       </div>
                       <div>
                         Total Rebate{" "}
-                        <b>{(+summary?.Rebate || 0).toLocaleString()}</b>
+                        <b>{(+summary?.rebate || 0).toLocaleString()}</b>
                       </div>
                       <div>
                         Total Box{" "}
-                        <b>{(+summary?.["#_Box"] || 0).toLocaleString()}</b>
+                        {/* <b>{(+summary?.["#_Box"] || 0).toLocaleString()}</b> */}
+                        <b>{(+summary?.Total_Box || 0).toLocaleString()}</b>
                       </div>
                       <div>
                         Total CNF <b>{(+summary?.CNF || 0).toLocaleString()}</b>

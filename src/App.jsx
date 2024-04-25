@@ -113,7 +113,7 @@ import InventoryProduce from "./components/operation/InventoryProduce";
 import InventoryPackaging from "./components/operation/InventoryPackaging";
 import InventoryBoxes from "./components/operation/InventoryBoxes";
 import UpdateUser from "./components/Setup/user/UpdateUser";
- 
+import ChartConsi from "./components/ClientManageMent/ChartConsi";
 function App() {
   console.log('time:6:24,date:17/04/2024')
   const [isAuthenticate] = useContext(IsLoginAuthenticateContext);
@@ -287,6 +287,8 @@ function App() {
                 <Route path="/inventoryProduce" element={<InventoryProduce />} />
                 <Route path="/inventoryPackaging" element={<InventoryPackaging />} />
                 <Route path="/inventoryBoxes" element={<InventoryBoxes />} />
+                <Route path="/chartConsi" element={<ChartConsi />} />
+                
               </Route>
             ) : (
               <>

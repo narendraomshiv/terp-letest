@@ -1315,6 +1315,7 @@ input[type="number"] {
   position: absolute;
   left: 48px;
 }
+
 .shipToToggle .toggleSwitch > span:before {
   content: "";
   display: block;
@@ -1328,13 +1329,16 @@ input[type="number"] {
 .rowCursorPointer span.mdi.mdi-check.mr-2.text-xl {
   display: none;
 }
+
 .container-fluid .btn {
   letter-spacing: 0px !important;
 }
+
 .userIcon i {
   color: var(--blue);
   font-size: 22px;
 }
+
 /* user reset */
 .resetForm input {
   border: 2px solid #203764;
@@ -1342,6 +1346,7 @@ input[type="number"] {
   border-radius: 5px;
   padding: 8px;
 }
+
 .resetForm h6 {
   margin: 15px 0px 10px 0px;
   font-weight: 600;
@@ -1351,9 +1356,11 @@ input.userCheck {
   height: 18px;
   width: 25px;
 }
+
 .resetBtn {
   margin-top: 30px;
 }
+
 .resetBtn button {
   background-color: var(--blue);
   padding: 7px 30px;
@@ -1363,16 +1370,19 @@ input.userCheck {
   font-weight: 650;
   margin-right: 5px;
 }
+
 .userIcon i {
   color: var(--blue);
   font-size: 22px;
 }
-  .resetForm input {
+
+.resetForm input {
   border: 2px solid #203764;
   width: 100%;
   border-radius: 5px;
   padding: 8px;
 }
+
 .resetForm h6 {
   margin: 15px 0px 10px 0px;
   font-weight: 600;
@@ -1392,30 +1402,35 @@ input.userCheck {
   font-weight: 650;
   margin-right: 5px;
 }
+
 .resetBtn {
   padding-top: 30px;
 }
- 
+
 .modal-header {
   padding: 0px 10px !important;
   background: #203764;
   color: #ffff;
   border: unset;
 }
-.modal-header h1{
+
+.modal-header h1 {
   color: #fff;
 }
+
 .modal-footer {
   background: #203764;
   padding: 10px 10px !important;
 
-   border: unset !important;
+  border: unset !important;
 }
+
 .modal-footer button {
   background: #fff !important;
-   border: unset !important;
-   color: #000 !important;
+  border: unset !important;
+  color: #000 !important;
 }
+
 .eanCheck p {
   border: 2px solid #203764;
   margin-bottom: 10px;
@@ -1425,9 +1440,90 @@ input.userCheck {
   text-align: left;
   width: 100%;
 }
+
 .modal-body {
   padding: 25px;
 }
-.submitButton{
+
+.submitButton {
   background-color: #203764 !important;
+}
+/* 23/4/2024 */
+.nav-link {
+  color: #203764 !important;
+}
+
+.formCreate textarea {
+  height: 42px;
+  border: 2px solid #203764;
+  border-radius: 5px;
+  width: 100%;
+}
+
+#exampleModalContact .modal-header {
+  padding: 10px !important;
+}
+
+#exampleModalContact button.btn-close {
+  background-color: #fff;
+  opacity: 1;
+}
+
+#exampleModalContact .modal-footer {
+  display: flex;
+  justify-content: center;
+}
+
+#exampleModalContact .modal-header i {
+  color: #000;
+  position: relative;
+  bottom: 9px;
+  font-size: 25px;
+  right: 4px;
+}
+.tableContact th {
+  background-color: #fff;
+}
+.tableContact tr th {
+  font-size: 14px;
+  padding: 15px;
+}
+.tableContact tr td {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 15px;
+}
+.tableContact tr {
+  border: unset !important;
+}
+.tableContact tr:nth-child(even) {
+  background-color: rgb(243, 243, 243);
+}
+.statisticsContent .card {
+  margin-top: 40px;
+}
+.statisticsContent {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+.consigneeCard .card-header p {
+  color: #203764;
+  font-size: 16px !important;
+  font-weight: 600;
+}
+.consigneeCard .card-header h4 {
+  color: #979797;
+  font-size: 14px !important;
+}
+canvas#myChart {
+  height: 350px !important;
+  width: 700px !important;
+}
+.chartConsignee {
+  margin-top: 50px;
+}
+/* 24/4/2024 */
+td.borderUnsetPod input {
+  border: unset !important;
+  background-color: unset !important;
 }
