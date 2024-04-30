@@ -19,17 +19,30 @@ const Orders = () => {
   // const { data, refetch } = useQuery("getOrders");
 
   const [data, setData] = useState([]);
-  const orderData = () => {
+  useEffect(() => {
     axios.get(`${API_BASE_URL}/getOrders`).then((res) => {
       setData(res.data.data || []);
     });
-  };
-  useEffect(() => {
-    orderData();
   }, []);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const { data: liner } = useQuery("getLiner");
+
+  useEffect(() => {
+    if (selectedLinerId !== null) {
+      axios
+        .post(`${API_BASE_URL}/getjourneyNumber`, { liner_id: selectedLinerId })
+        .then((response) => {
+          setJourney(response.data.data)
+          // Handle success
+          console.log(response.data.data);
+        })
+        .catch((error) => {
+          // Handle error
+          console.error(error);
+        });
+    }
+  }, [selectedLinerId]);
 
   const [id, setID] = useState(null);
   const dataFind = useMemo(() => {
@@ -39,9 +52,11 @@ const Orders = () => {
     defaultValues: {
       Liner: dataFind?.Freight_liner || "",
       journey_number: dataFind?.Freight_journey_number || "",
-      bl: dataFind?.Freight_bl || "",
-      Load_date:
-        new Date(dataFind?.load_date || null).toISOString().split("T")[0] || "",
+      BL_Number: dataFind?.Freight_bl || "",
+      Load_Date:
+        new Date(dataFind?.Freight_load_date || null)
+          .toISOString()
+          .split("T")[0] || "",
       Load_time: dataFind?.Freight_load_time || "",
       Ship_date:
         new Date(dataFind?.Freight_ship_date || null)
@@ -57,36 +72,19 @@ const Orders = () => {
     onSubmit: async ({ value }) => {
       if (dataFind?.order_id) {
         try {
-          await axios.post(`${API_BASE_URL}/updateOrderFreight`, {
-            order_id: dataFind?.order_id,
+          await axios.post(`${API_BASE_URL}/UpdateorderFreightDetails`, {
+            Order_id: dataFind?.order_id,
             ...value,
           });
           toast.success("Order update successfully");
-          orderData();
           refetch();
         } catch (e) {
-          console.log(e);
-          // toast.error("Something went wrong");
+          toast.error("Something went wrong");
         }
       }
       closeModal();
     },
   });
-  useEffect(() => {
-    if (selectedLinerId !== null || dataFind?.Freight_liner) {
-      const linerId =
-        selectedLinerId !== null ? selectedLinerId : dataFind?.Freight_liner;
-      axios
-        .post(`${API_BASE_URL}/getjourneyNumber`, { liner_id: linerId })
-        .then((response) => {
-          setJourney(response.data.data || []);
-          console.log(response.data.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [selectedLinerId, dataFind?.Freight_liner]);
   const closeModal = () => {
     setIsOpenModal(false);
   };
@@ -116,53 +114,6 @@ const Orders = () => {
       }
     });
   };
-  const handleJourneySelection = async (selectedJourneyId) => {
-    const journey_id = selectedJourneyId; // assuming selectedJourneyId comes directly as the ID
-    const order_id = id; // Assuming 'id' is already storing the order_id you need
-
-    try {
-      // Sending a POST request to the server with journey_id and order_id
-      const response = await axios.post(
-        `${API_BASE_URL}/getOrderFreightDetails`,
-        {
-          journey_id,
-          order_id,
-        }
-      );
-      // Logging the entire response object to see all details
-      console.log("Response from getOrderFreightDetails:", response);
-
-      // Show success message
-
-      // Check if data is available and update form fields
-      const data = response.data;
-      if (data) {
-        // Log the data object to see its structure and values
-        console.log("Received data:", data.data);
-
-        // Updating form fields with the received data
-        form.setFieldValue("Load_time", data.data.Load_time);
-        form.setFieldValue("ETD", data.data.ETD);
-        form.setFieldValue("ETA", data.data.ETA);
-        form.setFieldValue(
-          "Ship_date",
-          new Date(data.data.Freight_ship_date).toISOString().split("T")[0]
-        );
-        form.setFieldValue(
-          "Arrival_date",
-          new Date(data.data.Freight_arrival_date).toISOString().split("T")[0]
-        );
-      } else {
-        // Log if data is missing or undefined
-        console.log("No data received in response");
-      }
-    } catch (error) {
-      // Log the error if the request fails
-      console.error("Failed to fetch freight details:", error);
-      toast.error("Error fetching freight details");
-    }
-  };
-
   const columns = useMemo(
     () => [
       {
@@ -204,7 +155,7 @@ const Orders = () => {
         accessor: (a) => (
           <div className="editIcon">
             <Link
-              to="/createOrder"
+              to="/orderview"
               state={{ from: { ...a, isReadOnly: true } }}
             >
               <i className="mdi mdi-eye" />
@@ -217,7 +168,7 @@ const Orders = () => {
             <Link to="/orderPdfView" state={{ from: { ...a } }}>
               <i className="mdi mdi-file-pdf-box" />
             </Link>
-            <Link to="/orderPdf_View">
+            <Link to="/orderPdf_View" state={{ from: { ...a } }}>
               <i class="mdi mdi-file-account-outline"></i>
             </Link>
 
@@ -303,21 +254,27 @@ const Orders = () => {
                 </div>
                 <div className="form-group">
                   <label>Journey Number</label>
-
-                  <form.Field
+                  {/* <form.Field
                     name="journey_number"
+                    children={(field) => (
+                      <input
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  /> */}
+                  <form.Field
+                    name="Journey_id"
                     children={(field) => (
                       <ComboBox
                         options={Journey?.map((v) => ({
                           id: v.ID,
                           name: v.journey_number,
                         }))}
-                        defaultValues={dataFind?.Freight_journey_number}
                         value={field.state.value}
-                        onChange={(e) => {
-                          field.handleChange(e);
-                          handleJourneySelection(e);
-                        }}
+                        onChange={(e) => field.handleChange(e)}
                       />
                     )}
                   />
@@ -325,7 +282,7 @@ const Orders = () => {
                 <div className="form-group">
                   <label>BL</label>
                   <form.Field
-                    name="bl"
+                    name="BL_Number"
                     children={(field) => (
                       <input
                         name={field.name}
@@ -340,7 +297,7 @@ const Orders = () => {
                   <div className="form-group w-full">
                     <label>Load Date</label>
                     <form.Field
-                      name="Load_date"
+                      name="Load_Date"
                       children={(field) => (
                         <input
                           type="date"

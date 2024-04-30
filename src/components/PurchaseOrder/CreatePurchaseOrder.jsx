@@ -256,10 +256,10 @@ const CreatePurchaseOrder = () => {
                     <tbody>
                       {details?.map((v, i) => (
                         <tr key={`b_${i}`} className="rowCursorPointer">
-                          <td>
+                          <td className="borderUnsetPod">
                             {/* {v.pod_status === "1" ? (
                               <input
-                                style={{ width: "120px" }}
+                                style={{ width: "130px" }}
                                 className="border-0"
                                 value={v.pod_code}
                               />
@@ -278,7 +278,7 @@ const CreatePurchaseOrder = () => {
                           </td>
                           <td>
                             {/* <ComboBox
-                              containerStyle={{ width: "120px" }}
+                              containerStyle={{ width: "130px" }}
                               options={dropdownType?.map((v) => ({
                            
                                 id: v.type_id,
@@ -296,7 +296,7 @@ const CreatePurchaseOrder = () => {
 
                             {v.pod_status == "1" ? (
                               <ComboBox
-                                containerStyle={{ width: "120px" }}
+                                containerStyle={{ width: "130px" }}
                                 options={dropdownType?.map((v) => ({
                                   id: v.type_id,
                                   name: v.type_name_en,
@@ -322,7 +322,7 @@ const CreatePurchaseOrder = () => {
                           </td>
                           <td>
                             {/* <ComboBox
-                              containerStyle={{ width: "120px" }}
+                              containerStyle={{ width: "130px" }}
                               options={
                                 v.pod_type_id == "1"
                                   ? packagingList?.map((v) => ({
@@ -352,7 +352,7 @@ const CreatePurchaseOrder = () => {
 
                             {v.pod_status == "1" ? (
                               <ComboBox
-                                containerStyle={{ width: "120px" }}
+                                containerStyle={{ width: "130px" }}
                                 options={
                                   v.pod_type_id == "1"
                                     ? packagingList?.map((v) => ({
@@ -404,7 +404,7 @@ const CreatePurchaseOrder = () => {
                                 className="border-0"
                                 type="text"
                                 name="pod_quantity"
-                                style={{ width: "120px" }}
+                                style={{ width: "130px" }}
                                 disabled={+v.pod_status != 1}
                                 value={v.pod_quantity}
                                 onChange={(e) => handleEditDatils(i, e)}
@@ -416,7 +416,7 @@ const CreatePurchaseOrder = () => {
                           <td>
                             {v.pod_status == "1" ? (
                               <ComboBox
-                                containerStyle={{ width: "120px" }}
+                                containerStyle={{ width: "130px" }}
                                 options={unitType?.map((v) => ({
                                   id: v.unit_id,
                                   name: v.unit_name_en,
@@ -442,7 +442,7 @@ const CreatePurchaseOrder = () => {
                                 defaultValue={v.pod_price}
                                 disabled={+v.pod_status != 1}
                                 onChange={(e) => handleEditDatils(i, e)}
-                                style={{ width: "120px" }}
+                                style={{ width: "130px" }}
                               />
                             ) : (
                               <> {v.pod_price}</>
@@ -457,7 +457,7 @@ const CreatePurchaseOrder = () => {
                                 defaultValue={v.pod_vat}
                                 disabled={+v.pod_status != 1}
                                 onChange={(e) => handleEditDatils(i, e)}
-                                style={{ width: "120px" }}
+                                style={{ width: "50px" }}
                               />
                             ) : (
                               <> {v.pod_vat}</>
@@ -466,7 +466,7 @@ const CreatePurchaseOrder = () => {
                           <td>
                             {v.pod_status == "1" ? (
                               <input
-                                style={{ width: "120px" }}
+                                style={{ width: "130px" }}
                                 type="text"
                                 readOnly
                                 className="border-0"
@@ -501,7 +501,7 @@ const CreatePurchaseOrder = () => {
                                 name="pod_wht_id"
                                 className="border-0"
                                 disabled={+v.pod_status != 1}
-                                style={{ width: "120px" }}
+                                style={{ width: "50px" }}
                                 value={v.pod_wht_id}
                                 onChange={(e) => handleEditDatils(i, e)}
                               />
@@ -555,7 +555,7 @@ const CreatePurchaseOrder = () => {
                           <td> </td>
                           <td>
                             <ComboBox
-                              containerStyle={{ width: "120px" }}
+                              containerStyle={{ width: "130px" }}
                               value={element.pod_type_id}
                               options={dropdownType?.map((v) => ({
                                 id: v.type_id,
@@ -572,7 +572,7 @@ const CreatePurchaseOrder = () => {
                           </td>
                           <td>
                             <ComboBox
-                              containerStyle={{ width: "120px" }}
+                              containerStyle={{ width: "130px" }}
                               value={element.pod_item}
                               options={
                                 element.pod_type_id == "1"
@@ -603,13 +603,13 @@ const CreatePurchaseOrder = () => {
                               name="pod_quantity"
                               className="border-0"
                               onChange={(e) => addFieldHandleChange(index, e)}
-                              style={{ width: "120px" }}
+                              style={{ width: "130px" }}
                               defaultValue={element.pod_quantity}
                             />
                           </td>
                           <td>
                             <ComboBox
-                              containerStyle={{ width: "120px" }}
+                              containerStyle={{ width: "130px" }}
                               value={element.unit_count_id}
                               options={unitType?.map((v) => ({
                                 id: v.unit_id,
@@ -631,7 +631,7 @@ const CreatePurchaseOrder = () => {
                               className="border-0"
                               onChange={(e) => addFieldHandleChange(index, e)}
                               defaultValue={element.pod_price}
-                              style={{ width: "120px" }}
+                              style={{ width: "130px" }}
                             />
                           </td>
                           <td>
@@ -646,7 +646,7 @@ const CreatePurchaseOrder = () => {
                           </td>
                           <td>
                             <input
-                              style={{ width: "120px" }}
+                              style={{ width: "130px" }}
                               type="text"
                               readOnly
                               className="border-0"
@@ -675,7 +675,7 @@ const CreatePurchaseOrder = () => {
                               type="text"
                               name="pod_crate"
                               className="border-0"
-                              style={{ width: "120px" }}
+                              style={{ width: "70px" }}
                               onChange={(e) => addFieldHandleChange(index, e)}
                               defaultValue={element.pod_crate}
                             />

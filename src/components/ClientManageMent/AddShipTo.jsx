@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -7,10 +7,9 @@ import { API_BASE_URL } from "../../Url/Url";
 import { Card } from "../../card";
 import ChartConsi from "./ChartConsi";
 const AddShipTo = () => {
-  const { data: getConsine } = useQuery("getConsigneeCustomization");
-  // const [consineTable, setConsineTable] = useState([])
-  console.log(getConsine);
   const location = useLocation();
+  const [selectedItemId, setSelectedItemId] = useState(null);
+  console.log(selectedItemId)
   const { from } = location.state || {};
   console.log(from);
   const navigate = useNavigate();
@@ -39,6 +38,12 @@ const AddShipTo = () => {
     notify_email: from?.notify_email || "",
     notify_phone: from?.notify_phone || "",
     notify_address: from?.notify_address || "",
+    // bank_name: from?.bank_name || "",
+    // account_name: from?.account_name || "",
+    // account_number: from?.account_number || "",
+    client_bank_account: from?.bank_name || "",
+    client_bank_name: from?.account_name || "",
+    client_bank_number:from?.account_number || ""
   });
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -55,8 +60,40 @@ const AddShipTo = () => {
   const { data: liner } = useQuery("getLiner");
   const { data: commission } = useQuery("getDropdownCommissionType");
   const { data: locations } = useQuery("getLocation");
+  const { data: contactType } = useQuery("DropdownContactType ");
+  const [state1, setState1] = useState({
+    client_id: "",
+    contact_type_id: "",
+    contact_id:"",
+    consignee_id: from?.consignee_id || "", // Assuming you want to capture this in the form as well
+    first_name: "",
+    last_name: "",
+    position: "",
+    Email: "",
+    mobile: "",
+    landline: "",
+    birthday: "",
+    Notes: "",
+    Nick_name: "",
+  });
+  const handleChange1 = (e) => {
+    const { name, value } = e.target;
+    setState1((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
   const { data: currency } = useQuery("getCurrency");
-
+  const [data, setData] = useState([]);
+  const getAllContact = () => {
+    axios.get(`${API_BASE_URL}/getContactList`).then((res) => {
+      console.log(res);
+      setData(res.data.data || []);
+    });
+  };
+  useEffect(() => {
+    getAllContact();
+  }, []);
   const update = () => {
     axios
       .post(
@@ -81,10 +118,125 @@ const AddShipTo = () => {
         return false;
       });
   };
+  const contactDataSubmit = (e) => {
+    console.log(state1);
+    e.preventDefault();
+    axios.post(`${API_BASE_URL}/addContactDetails`, state1)
+        .then((response) => {
+            console.log(response);
+            getAllContact();
+            toast.success("Contact added Successfully", {
+                autoClose: 1000,
+                theme: "colored",
+            });
+            // Close the modal
+            let modalElement = document.getElementById('exampleModalContact');
+            let modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+            // Clear the form fields
+            setState1({
+                client_id: "",
+                contact_type_id: "",
+                contact_id:"",
+                consignee_id: from?.consignee_id || "",
+                first_name: "",
+                last_name: "",
+                position: "",
+                Email: "",
+                mobile: "",
+                landline: "",
+                birthday: "",
+                Notes: "",
+                Nick_name: "",
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+            toast.error("Network Error", {
+                autoClose: 1000,
+                theme: "colored",
+            });
+            return false;
+        });
+};
+
+const contactDetailsEdit = (e) => {
+  console.log(state1);
+  e.preventDefault();
+  axios
+    .post(`${API_BASE_URL}/updateContactDetails`, state1)
+    .then((response) => {
+      console.log(response);
+      getAllContact();
+      toast.success("Contact Update Successfully", {
+        autoClose: 1000,
+        theme: "colored",
+      });
+      setState1({
+        client_id: "",
+        contact_type_id: "",
+        contact_id:"",
+        consignee_id: from?.consignee_id || "",
+        first_name: "",
+        last_name: "",
+        position: "",
+        Email: "",
+        mobile: "",
+        landline: "",
+        birthday: "",
+        Notes: "",
+        Nick_name: "",
+    });
+
+      // Close the modal
+      let modalElement = document.getElementById('exampleModalEdit');
+      let modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("Network Error", {
+        autoClose: 1000,
+        theme: "colored",
+      });
+      return false;
+    });
+};
+
+  const handleEditClick = (id) => {
+    const contactId = id;
+    console.log(contactId);
+    const selectedUser = data?.find((item) => item.contact_id === id);
+
+    setState1((prevData) => ({
+      ...prevData,
+      client_id: selectedUser?.client_id || "",
+      contact_type_id: selectedUser?.contact_type_id || "",
+      consignee_id: selectedUser?.consignee_id || "",
+      contact_id: contactId,
+      first_name: selectedUser?.first_name || "",
+      last_name: selectedUser?.last_name || "",
+      position: selectedUser?.position || "",
+      Email: selectedUser?.Email || "",
+      mobile: selectedUser?.mobile || "",
+      landline: selectedUser?.landline || "",
+      birthday: selectedUser ? new Date(selectedUser.birthday).toISOString().split('T')[0] : "",
+      Notes: selectedUser?.Notes || "",
+      Nick_name: selectedUser?.Nick_name || "",
+    }));
+
+    console.log(selectedUser);
+    // Open the modal using jQuery or another method here
+};
+
 
   console.log(state.Commission_Currency);
   return (
-    <Card title={`Ship To / ${from?.consignee_id ? "Update" : "Create"} Form`}>
+    <Card title={`Consignee To / ${from?.consignee_id ? "Update" : "Create"} Form`}>
       <div className="top-space-search-reslute">
         <div className="tab-content px-2 md:!px-4">
           <div className="tab-pane active" id="header" role="tabpanel">
@@ -408,23 +560,7 @@ const AddShipTo = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        {/* <div className="form-group col-lg-3">
-                      <h6> Commission Currency</h6>
-                      <div className="ceateTransport">
-                        <select
-                          value={state.brand}
-                          name="brand"
-                          onChange={handleChange}
-                        >
-                          <option value="">Select Brand</option>
-                          {brands?.map((item) => (
-                            <option value={item.brand_id}>
-                              {item.Brand_name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div> */}
+
                         <div className="form-group col-lg-4 shipToToggle">
                           <h6>Commission Currency</h6>
                           <label
@@ -522,6 +658,57 @@ const AddShipTo = () => {
                             />
                           </div>
                         </div>
+                        {/* <div className="col-lg-12">
+                          <h6
+                            className="mt-4"
+                            style={{
+                              fontWeight: "600",
+                              marginBottom: "10px",
+                              fontSize: "20px",
+                            }}
+                          >
+                            Bank Informations
+                          </h6>
+                          <div className="row ">
+                            <div className="form-group col-lg-4">
+                              <h6>Bank Name</h6>
+
+                              <input
+                                onChange={handleChange}
+                                type="text"
+                                id="name_en"
+                                name="bank_name"
+                                className="form-control"
+                                placeholder="axis "
+                                value={state.bank_name}
+                              />
+                            </div>
+                            <div className="form-group col-lg-4">
+                              <h6>Account Name</h6>
+                              <input
+                                onChange={handleChange}
+                                type="text"
+                                id="name_en"
+                                name="account_name"
+                                className="form-control"
+                                placeholder="xxxxx "
+                                value={state.account_name}
+                              />
+                            </div>
+                            <div className="form-group col-lg-4">
+                              <h6>Account Number</h6>
+                              <input
+                                onChange={handleChange}
+                                type="text"
+                                id="name_en"
+                                name="account_number"
+                                className="form-control"
+                                placeholder="3345345435 "
+                                value={state.account_number}
+                              />
+                            </div>
+                          </div>
+                        </div> */}
                         <div className="col-lg-12">
                           <h6
                             className="mt-4"
@@ -572,6 +759,7 @@ const AddShipTo = () => {
                               />
                             </div>
                           </div>
+
                         </div>
                       </div>
                     </form>
@@ -609,66 +797,239 @@ const AddShipTo = () => {
                       <th>Mobile</th>
                       <th>Action</th>
                     </tr>
-                    <tr>
-                      <td>Harry</td>
-                      <td>Potter</td>
-                      <td>Micky</td>
-                      <td>xyz</td>
-                      <td>Developer</td>
-                      <td>harry@gmail.com</td>
-                      <td>8734538785</td>
-                      <td>
-                        <div class="editIcon">
-                          <i class="mdi mdi-pencil"></i>
-                          <i class="mdi mdi-delete "></i>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Harry</td>
-                      <td>Potter</td>
-                      <td>Micky</td>
-                      <td>xyz</td>
-                      <td>Developer</td>
-                      <td>harry@gmail.com</td>
-                      <td>8734538785</td>
-                      <td>
-                        <div class="editIcon">
-                          <i class="mdi mdi-pencil"></i>
-                          <i class="mdi mdi-delete "></i>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Harry</td>
-                      <td>Potter</td>
-                      <td>Micky</td>
-                      <td>xyz</td>
-                      <td>Developer</td>
-                      <td>harry@gmail.com</td>
-                      <td>8734538785</td>
-                      <td>
-                        <div class="editIcon">
-                          <i class="mdi mdi-pencil"></i>
-                          <i class="mdi mdi-delete "></i>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Harry</td>
-                      <td>Potter</td>
-                      <td>Micky</td>
-                      <td>xyz</td>
-                      <td>Developer</td>
-                      <td>harry@gmail.com</td>
-                      <td>8734538785</td>
-                      <td>
-                        <div class="editIcon">
-                          <i class="mdi mdi-pencil"></i>
-                          <i class="mdi mdi-delete "></i>
-                        </div>
-                      </td>
-                    </tr>
+
+                    {data?.map((item) => {
+                      return (
+                        <tr>
+                          <td>{item.first_name}</td>
+                          <td>{item.last_name}</td>
+                          <td>{item.Nick_name}</td>
+                          <td>{item.position}</td>
+                          <td>{item.type}</td>
+                          <td>{item.Email}</td>
+                          <td>{item.mobile}</td>
+                          <td>
+                            <div class="editIcon">
+                              {/* edit popup */}
+                              <button
+                                type="button"
+                                onClick={() => handleEditClick(item.contact_id)}
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModalEdit"
+                              >
+                                {" "}
+                                <i class="mdi mdi-pencil"></i>
+                                {/* edit popup */}
+                              </button>
+                              <div
+                                class="modal fade"
+                                id="exampleModalEdit"
+                                tabindex="-1"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true"
+                              >
+                                <div class="modal-dialog modal-xl">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1
+                                        class="modal-title fs-5"
+                                        id="exampleModalLabel"
+                                      >
+                                        Contact Update
+                                      </h1>
+                                      <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                      >
+                                        <i class="mdi mdi-close"></i>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div className="formCreate">
+                                        <form action="">
+                                          <div className="row">
+                                            <div className="col-lg-12">
+                                              <div class="form-group col-lg-3">
+                                                <h6>Client </h6>
+                                                <div class="ceateTransport">
+                                                  <select
+                                                    name="client_id"
+                                                    onChange={handleChange1}
+                                                    value={state1.client_id}
+                                                  >
+                                                    <option value="">
+                                                      Select Client
+                                                    </option>
+                                                    {client?.map((item) => (
+                                                      <option
+                                                        key={item.client_id}
+                                                        value={item.client_id}
+                                                      >
+                                                        {item.client_name}
+                                                      </option>
+                                                    ))}
+                                                  </select>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                              <h6>Contact Type </h6>
+                                              <div class="ceateTransport">
+                                                <select
+                                                  name="contact_type_id"
+                                                  onChange={handleChange1}
+                                                  value={state1.contact_type_id}
+                                                >
+                                                  <option value="">
+                                                    Select Type
+                                                  </option>
+                                                  {contactType?.map((item) => (
+                                                    <option
+                                                      key={item.contact_type_id}
+                                                      value={
+                                                        item.contact_type_id
+                                                      }
+                                                    >
+                                                      {item.type_en}
+                                                    </option>
+                                                  ))}
+                                                </select>
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                              <h6> First Name </h6>
+                                              <div class=" ">
+                                                <input
+                                                  type="text"
+                                                  name="first_name"
+                                                  onChange={handleChange1}
+                                                  value={state1.first_name}
+                                                  placeholder="first name"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                              <h6>Last Name </h6>
+                                              <div class=" ">
+                                                <input
+                                                  type="text"
+                                                  name="last_name"
+                                                  onChange={handleChange1}
+                                                  value={state1.last_name}
+                                                  placeholder="last name"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                              <h6>Nick Name</h6>
+                                              <div>
+                                                <input
+                                                  type="text"
+                                                  name="Nick_name"
+                                                  onChange={handleChange1}
+                                                  value={state1.Nick_name}
+                                                  placeholder="nick name"
+                                                />
+                                              </div>
+                                            </div>
+
+                                            <div class="form-group col-lg-3">
+                                              <h6>Position </h6>
+                                              <div class=" ">
+                                                <input
+                                                  type="text"
+                                                  name="position"
+                                                  onChange={handleChange1}
+                                                  value={state1.position}
+                                                  placeholder="position"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                              <h6>Email</h6>
+                                              <div class=" ">
+                                                <input
+                                                  type="email"
+                                                  name="Email"
+                                                  onChange={handleChange1}
+                                                  value={state1.Email}
+                                                  placeholder="email"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                              <h6>Mobile</h6>
+                                              <div class=" ">
+                                                <input
+                                                  type="number"
+                                                  name="mobile"
+                                                  onChange={handleChange1}
+                                                  value={state1.mobile}
+                                                  placeholder="mobile"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                              <h6>Landline</h6>
+                                              <div class=" ">
+                                                <input
+                                                  type="number"
+                                                  name="landline"
+                                                  onChange={handleChange1}
+                                                  value={state1.landline}
+                                                  placeholder="landline"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-4">
+                                              <h6>Birthday</h6>
+                                              <div>
+                                                <input
+                                                  type="date"
+                                                  name="birthday"
+                                                  onChange={handleChange1}
+                                                  value={state1.birthday}
+                                                  placeholder="birthday"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div class="form-group col-lg-8">
+                                              <h6>Notes</h6>
+                                              <div>
+                                                <textarea
+                                                  name="Notes"
+                                                  onChange={handleChange1}
+                                                  value={state1.Notes}
+                                                  cols="30"
+                                                  rows="5"
+                                                ></textarea>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer justify-center">
+                                      <button
+                                        onClick={contactDetailsEdit}
+                                        type="button"
+                                        class="btn btn-primary mb-0"
+                                      >
+                                        Update
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {/* edit popup end */}
+                              <i class="mdi mdi-delete "></i>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </table>
                 </div>
                 <div className="row">
@@ -711,12 +1072,22 @@ const AddShipTo = () => {
                               <div className="row">
                                 <div className="col-lg-12">
                                   <div class="form-group col-lg-3">
-                                    <h6>Client Id </h6>
+                                    <h6>Client </h6>
                                     <div class="ceateTransport">
-                                      <select name="client_id">
-                                        <option value="">option 1</option>
-                                        <option value="">option 1</option>
-                                        <option value="">option 1</option>
+                                      <select
+                                        name="client_id"
+                                        onChange={handleChange1}
+                                        value={state1.client_id}
+                                      >
+                                        <option value="">Select Client</option>
+                                        {client?.map((item) => (
+                                          <option
+                                            key={item.client_id}
+                                            value={item.client_id}
+                                          >
+                                            {item.client_name}
+                                          </option>
+                                        ))}
                                       </select>
                                     </div>
                                   </div>
@@ -724,10 +1095,20 @@ const AddShipTo = () => {
                                 <div class="form-group col-lg-3">
                                   <h6>Contact Type </h6>
                                   <div class="ceateTransport">
-                                    <select name="client_id">
-                                      <option value="">option 1</option>
-                                      <option value="">option 1</option>
-                                      <option value="">option 1</option>
+                                    <select
+                                      name="contact_type_id"
+                                      onChange={handleChange1}
+                                      value={state1.contact_type_id}
+                                    >
+                                      <option value="">Select Type</option>
+                                      {contactType?.map((item) => (
+                                        <option
+                                          key={item.contact_type_id}
+                                          value={item.contact_type_id}
+                                        >
+                                          {item.type_en}
+                                        </option>
+                                      ))}
                                     </select>
                                   </div>
                                 </div>
@@ -736,8 +1117,9 @@ const AddShipTo = () => {
                                   <div class=" ">
                                     <input
                                       type="text"
-                                      name=""
-                                      id=""
+                                      name="first_name"
+                                      onChange={handleChange1}
+                                      value={state1.first_name}
                                       placeholder="first name"
                                     />
                                   </div>
@@ -747,8 +1129,9 @@ const AddShipTo = () => {
                                   <div class=" ">
                                     <input
                                       type="text"
-                                      name=""
-                                      id=""
+                                      name="last_name"
+                                      onChange={handleChange1}
+                                      value={state1.last_name}
                                       placeholder="last name"
                                     />
                                   </div>
@@ -758,6 +1141,9 @@ const AddShipTo = () => {
                                   <div>
                                     <input
                                       type="text"
+                                      name="Nick_name"
+                                      onChange={handleChange1}
+                                      value={state1.Nick_name}
                                       placeholder="nick name"
                                     />
                                   </div>
@@ -768,8 +1154,9 @@ const AddShipTo = () => {
                                   <div class=" ">
                                     <input
                                       type="text"
-                                      name=""
-                                      id=""
+                                      name="position"
+                                      onChange={handleChange1}
+                                      value={state1.position}
                                       placeholder="position"
                                     />
                                   </div>
@@ -779,8 +1166,9 @@ const AddShipTo = () => {
                                   <div class=" ">
                                     <input
                                       type="email"
-                                      name=""
-                                      id=""
+                                      name="Email"
+                                      onChange={handleChange1}
+                                      value={state1.Email}
                                       placeholder="email"
                                     />
                                   </div>
@@ -790,8 +1178,9 @@ const AddShipTo = () => {
                                   <div class=" ">
                                     <input
                                       type="number"
-                                      name=""
-                                      id=""
+                                      name="mobile"
+                                      onChange={handleChange1}
+                                      value={state1.mobile}
                                       placeholder="mobile"
                                     />
                                   </div>
@@ -801,8 +1190,9 @@ const AddShipTo = () => {
                                   <div class=" ">
                                     <input
                                       type="number"
-                                      name=""
-                                      id=""
+                                      name="landline"
+                                      onChange={handleChange1}
+                                      value={state1.landline}
                                       placeholder="landline"
                                     />
                                   </div>
@@ -810,15 +1200,22 @@ const AddShipTo = () => {
                                 <div class="form-group col-lg-4">
                                   <h6>Birthday</h6>
                                   <div>
-                                    <input type="date" placeholder="birthday" />
+                                    <input
+                                      type="date"
+                                      name="birthday"
+                                      onChange={handleChange1}
+                                      value={state1.birthday}
+                                      placeholder="birthday"
+                                    />
                                   </div>
                                 </div>
                                 <div class="form-group col-lg-8">
                                   <h6>Notes</h6>
                                   <div>
                                     <textarea
-                                      name=""
-                                      id=""
+                                      name="Notes"
+                                      onChange={handleChange1}
+                                      value={state1.Notes}
                                       cols="30"
                                       rows="5"
                                     ></textarea>
@@ -829,7 +1226,11 @@ const AddShipTo = () => {
                           </div>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-primary mb-0">
+                          <button
+                            type="button"
+                            class="btn btn-primary mb-0"
+                            onClick={contactDataSubmit}
+                          >
                             Submit
                           </button>
                         </div>
@@ -1038,28 +1439,58 @@ const AddShipTo = () => {
                 tabindex="0"
               >
                 <div className="table-responsive">
-                  <table className="tableContact striped table borderTerpProduce">
-                    <tr>
-                      <th>ITF Name</th>
+                  <table className="  tableContact striped  table borderTerpProduce">
+                    <tr className="">
+                      <th> ITF Name</th>
                       <th>Custom Name</th>
                       <th>Dummy Price</th>
+
                       <th>Action</th>
                     </tr>
-                    {getConsine?.map((item) => (
-                      <tr key={item.id}>
-                        {" "}
-                        {/* Added key prop */}
-                        <td>{item.itf_name_en}</td>
-                        <td>{item.Custom_Name}</td>
-                        <td>{item.Dummy_Price}</td>
-                        <td>
-                          <div className="editIcon">
-                            <i className="mdi mdi-pencil"></i>
-                            <i className="mdi mdi-delete"></i>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                    <tr>
+                      <td>Harry</td>
+                      <td>Potter</td>
+                      <td>12.56</td>
+                      <td>
+                        <div class="editIcon">
+                          <i class="mdi mdi-pencil"></i>
+                          <i class="mdi mdi-delete "></i>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Harry</td>
+                      <td>Potter</td>
+                      <td>12.56</td>
+                      <td>
+                        <div class="editIcon">
+                          <i class="mdi mdi-pencil"></i>
+                          <i class="mdi mdi-delete "></i>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Harry</td>
+                      <td>Potter</td>
+                      <td>12.56</td>
+                      <td>
+                        <div class="editIcon">
+                          <i class="mdi mdi-pencil"></i>
+                          <i class="mdi mdi-delete "></i>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Harry</td>
+                      <td>Potter</td>
+                      <td>12.56</td>
+                      <td>
+                        <div class="editIcon">
+                          <i class="mdi mdi-pencil"></i>
+                          <i class="mdi mdi-delete "></i>
+                        </div>
+                      </td>
+                    </tr>
                   </table>
                 </div>
                 <Link
@@ -1067,6 +1498,8 @@ const AddShipTo = () => {
                   className="btn btn-danger"
                   to="/"
                   type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModalContact"
                 >
                   Add
                 </Link>

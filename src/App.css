@@ -373,14 +373,14 @@ tbody tr td {
   }
 
   .toggleSwitch label,
-  .toggleSwitch > span {
+  .toggleSwitch>span {
     line-height: 20px;
     height: 20px;
     vertical-align: middle;
   }
 
-  .toggleSwitch input:focus ~ a,
-  .toggleSwitch input:focus + label {
+  .toggleSwitch input:focus~a,
+  .toggleSwitch input:focus+label {
     outline: none;
   }
 
@@ -397,7 +397,7 @@ tbody tr td {
     z-index: 5;
   }
 
-  .toggleSwitch > span {
+  .toggleSwitch>span {
     position: absolute;
     left: -50px;
     width: 100%;
@@ -407,7 +407,7 @@ tbody tr td {
     white-space: nowrap;
   }
 
-  .toggleSwitch > span span {
+  .toggleSwitch>span span {
     position: absolute;
     top: 0;
     left: 0;
@@ -441,13 +441,13 @@ tbody tr td {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   }
 
-  .toggleSwitch > span span:first-of-type {
+  .toggleSwitch>span span:first-of-type {
     color: #ccc;
     opacity: 1;
     left: 45%;
   }
 
-  .toggleSwitch > span:before {
+  .toggleSwitch>span:before {
     content: "";
     display: block;
     width: 100%;
@@ -463,22 +463,22 @@ tbody tr td {
     transition: all 0.2s ease-out;
   }
 
-  .toggleSwitch input:checked ~ a {
+  .toggleSwitch input:checked~a {
     border-color: #fff;
     left: 100%;
     margin-left: -8px;
   }
 
-  .toggleSwitch input:checked ~ span:before {
+  .toggleSwitch input:checked~span:before {
     border-color: #203764;
     box-shadow: inset 0 0 0 30px #203764;
   }
 
-  .toggleSwitch input:checked ~ span span:first-of-type {
+  .toggleSwitch input:checked~span span:first-of-type {
     opacity: 0;
   }
 
-  .toggleSwitch input:checked ~ span span:last-of-type {
+  .toggleSwitch input:checked~span span:last-of-type {
     opacity: 1;
     color: #fff;
   }
@@ -493,20 +493,20 @@ tbody tr td {
     width: 27px;
   }
 
-  .toggleSwitch.large > span {
+  .toggleSwitch.large>span {
     height: 29px;
     line-height: 28px;
   }
 
-  .toggleSwitch.large input:checked ~ a {
+  .toggleSwitch.large input:checked~a {
     left: 41px;
   }
 
-  .toggleSwitch.large > span span {
+  .toggleSwitch.large>span span {
     font-size: 1em;
   }
 
-  .toggleSwitch.large > span span:first-of-type {
+  .toggleSwitch.large>span span:first-of-type {
     left: 50%;
   }
 }
@@ -545,8 +545,7 @@ tbody tr td {
   color: #f44335;
 }
 
-.modal-box .modal-dialog .modal-content .modal-body .btn {
-}
+.modal-box .modal-dialog .modal-content .modal-body .btn {}
 
 .modal-box .modal-dialog .modal-content .modal-body .btn.cancle_btn:hover {
   border: 2px solid #f44335;
@@ -764,8 +763,7 @@ main.main-content .container-fluid .card.p-4 {
   box-shadow: 0 0px 6px 1px rgb(0 0 0 / 6%), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.card-header
-  .icon.icon-lg.icon-shape.bg-gradient-primary.shadow-primary.text-center.border-radius-xl.mt-n4.position-absolute {
+.card-header .icon.icon-lg.icon-shape.bg-gradient-primary.shadow-primary.text-center.border-radius-xl.mt-n4.position-absolute {
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
     0 7px 10px -5px rgb(137 133 133 / 77%) !important;
 }
@@ -892,7 +890,7 @@ button.btn.btn-primary {
     gap: 10px;
   }
 
-  .parentProduceSearch > :nth-child(2) {
+  .parentProduceSearch> :nth-child(2) {
     width: 100%;
   }
 
@@ -1110,15 +1108,15 @@ ul.dropdown-menu.dropdown-menu-end a:hover {
   position: absolute;
 }
 
-.ps__rail-x:hover > .ps__thumb-x,
-.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-x:hover>.ps__thumb-x,
+.ps__rail-x:focus>.ps__thumb-x,
 .ps__rail-x.ps--clicking .ps__thumb-x {
   background-color: #999;
   height: 11px;
 }
 
-.ps__rail-y:hover > .ps__thumb-y,
-.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y:hover>.ps__thumb-y,
+.ps__rail-y:focus>.ps__thumb-y,
 .ps__rail-y.ps--clicking .ps__thumb-y {
   background-color: #999;
   width: 11px;
@@ -1131,7 +1129,8 @@ ul.dropdown-menu.dropdown-menu-end a:hover {
   }
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+@media screen and (-ms-high-contrast: active),
+(-ms-high-contrast: none) {
   .ps {
     overflow: auto !important;
   }
@@ -1305,18 +1304,18 @@ input[type="number"] {
   height: 28px;
 }
 
-.shipToToggle .toggleSwitch > span span {
+.shipToToggle .toggleSwitch>span span {
   position: absolute;
   left: 6%;
   font-weight: 700;
 }
 
-.shipToToggle .toggleSwitch > span:before {
+.shipToToggle .toggleSwitch>span:before {
   position: absolute;
   left: 48px;
 }
 
-.shipToToggle .toggleSwitch > span:before {
+.shipToToggle .toggleSwitch>span:before {
   content: "";
   display: block;
   width: 100%;
@@ -1470,8 +1469,8 @@ input.userCheck {
 }
 
 #exampleModalContact .modal-footer {
-  display: flex;
-  justify-content: center;
+display: flex;
+justify-content: center;
 }
 
 #exampleModalContact .modal-header i {
@@ -1481,7 +1480,7 @@ input.userCheck {
   font-size: 25px;
   right: 4px;
 }
-.tableContact th {
+.tableContact th{
   background-color: #fff;
 }
 .tableContact tr th {
@@ -1493,20 +1492,22 @@ input.userCheck {
   font-weight: 600;
   padding: 15px;
 }
-.tableContact tr {
+.tableContact tr{
   border: unset !important;
+  
 }
 .tableContact tr:nth-child(even) {
+ 
   background-color: rgb(243, 243, 243);
 }
-.statisticsContent .card {
+ .statisticsContent .card{
   margin-top: 40px;
-}
-.statisticsContent {
+ }
+ .statisticsContent{
   margin-top: 10px;
   margin-bottom: 30px;
-}
-.consigneeCard .card-header p {
+ }
+ .consigneeCard .card-header p {
   color: #203764;
   font-size: 16px !important;
   font-weight: 600;
@@ -1518,12 +1519,126 @@ input.userCheck {
 canvas#myChart {
   height: 350px !important;
   width: 700px !important;
+  
 }
-.chartConsignee {
+.chartConsignee{
   margin-top: 50px;
 }
 /* 24/4/2024 */
 td.borderUnsetPod input {
   border: unset !important;
-  background-color: unset !important;
+  background-color: unset !important;}
+  /* 29/4/2024 */
+  .parentPurchaseView {
+    display: flex;
+  
+  }
+  
+  .parentPurchaseView p {
+    margin-bottom: 0px;
+    font-size: 14px;
+  }
+  
+  .parentPurchaseView strong {
+    color: #203764;
+    font-weight: 700;
+    white-space: nowrap;
+    font-size: 14px;
+  
+  }
+  
+  .purchaseViewRow h6 {
+    margin-bottom: 15px;
+    font-weight: 700;
+    margin-top: 20px;
+  }
+  
+  .form-control[readonly] {
+    background-color: #ffffff !important;
+    opacity: 1;
+  }
+  
+  .purchaseViewRow .modal-header {
+    background: #203764;
+    padding: 10px !important;
+    padding-right: 20px !important;
+  }
+  
+  .purchaseViewRow .modal-footer {
+    padding: 10px 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .purchaseViewRow button {
+    margin-bottom: 0px;
+  }
+  
+  .purchaseViewRow .modal-header h1 {
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px !important;
+  }
+  
+  .purchaseViewRow label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #203764;
+  }
+  
+  .purchaseViewRow input {
+    width: 100%;
+    border-radius: 5px;
+    display: block;
+    padding: 7px 10px;
+    border: 2px solid #203764;
+  }
+  
+  .purchaseViewRow button.btn-close {
+    background: #fff;
+    opacity: 1;
+  }
+  .selectPurchase select {
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    border: 2px solid #203764;
+    padding: 10px;
+  }
+  .databaseTableSection {
+  background: #ffff;
+}
+.itemInfo{
+  color: #203764;
+  font-weight: 600;
+}
+.purchaseViewRow i {
+  color: #000;
+  position: relative;
+  bottom: 10px;
+  font-size: 25px;
+  right: 4px;
+}
+.borderBottompurchase {
+  border-bottom: 1px solid #efefef;
+    padding-bottom: 20px;
+}
+.editIcon {
+  border-bottom: unset;
+}
+#exampleModalEdit .modal-header{
+  padding: 10px !important;
+  padding-right: 20px !important;
+}
+#exampleModalEdit i{
+  color: #000;
+  position: relative;
+  bottom: 10px;
+  font-size: 25px;
+  right: 4px;
+}
+#exampleModalEdit button.btn-close {
+  background: #fff;
+  opacity: 1;
 }

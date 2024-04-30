@@ -38,7 +38,7 @@ export const OrderPackagingEdit = () => {
 
   const getOrdersDetails = () => {
     axios
-      .get(`${API_BASE_URL}/getOrderPackingDetails`, {
+      .get(`${API_BASE_URL}/getOrdersDetails`, {
         params: {
           id: from?.order_id,
         },
@@ -104,7 +104,6 @@ console.log(stock)
   const doPackaging = async (index, orderId, odId) => {
     console.log(index, orderId, odId);
     const data = details[index];
-    console.log(data);
     if (!data.bonus || !data.adjusted_gw_od)
       return toast.error("Please enter all values", {
         theme: "colored",
@@ -113,18 +112,9 @@ console.log(stock)
     loadingModal.fire();
 
     try {
-      // Replace the key EAN_To_Pack with ean_per_od in the data object
-      const modifiedData = {
-        ...data,
-        ean_per_od: data.EAN_To_Pack,
-        net_weight:data.NW_To_Pack,
-        Number_of_boxes: data.Boxes
-         // Replace EAN_To_Pack with ean_per_od
-      };
-
       await axios
         .post(`${API_BASE_URL}/doOrderPacking`, {
-          ...modifiedData,
+          ...data,
         })
         .then((response) => {
           console.log(response);
@@ -140,7 +130,7 @@ console.log(stock)
     } catch (e) {
       console.log(e);
       if (e.response && e.response.status === 400) {
-        console.log(e.response.data.message);
+        console.log(e.response.data.message)
         setStock(e.response.data.message);
         console.log(">>>>>>>>>>>>");
         // Open a modal here
@@ -161,7 +151,6 @@ console.log(stock)
       ]);
     }
   };
-
 
   const restoreOrderPackaging = (id, index) => {
     console.log(id);
@@ -257,14 +246,10 @@ console.log(stock)
                     <tr>
                       <th>ITF</th>
                       <th> Brand </th>
-                      <th>% Completed</th>
-                      <th>EAN Required</th>
-                      <th>EAN Packed</th>
-                      <th>EAN to Pack</th>
-                      <th>Net weight Required</th>
-                      <th>Net weight Packed</th>
-                      <th>Net weight to Pack</th>
+                      <th>Quantity</th>
+                      <th>Unit</th>
                       <th>Number of Box</th>
+                      <th>NW</th>
                       <th>Buns</th>
                       <th>Weight Adjustment</th>
                       <th>Action</th>
@@ -279,69 +264,59 @@ console.log(stock)
                       return (
                         <tr className="rowCursorPointer align-middle" key={i}>
                           <td className="">
-                          {v.ITF}
+                            {itf?.find((x) => x.itf_id == v.ITF)?.itf_name_en}
                           </td>
                           <td>
-                            <>{v.Name_exp_3}</>
-                          </td>
-                          <td>
-                            <>{v.Percentage_Packed}</>
-                          </td>
-                          <td>
-                            <>{v.EAN_Required}</>
-                          </td>
-                          <td>
-                            <>{v.Packed}</>
+                            <>{v.Brand_name}</>
                           </td>
                           <td>
                             {+v.status != 1 ? (
-                              <>{v.EAN_To_Pack}</>
+                              <>{v.ean_per_od}</>
                             ) : (
                               <input
                                 type="number"
                                 className="!w-24 mb-0"
                                 onChange={(e) => handleEditValues(i, e)}
-                                value={v.EAN_To_Pack}
+                                value={v.ean_per_od}
                                 defaultValue="0"
-                                name="EAN_To_Pack"
+                                name="ean_per_od"
                               />
                             )}
                           </td>
                           <td>
-                            <>{v.Net_Weight}</>
-                          </td>
-                          <td>
-                            <>{v.Packed_NW}</>
+                            {
+                              unit?.find((x) => x.unit_id == v.itf_unit)
+                                ?.unit_name_en
+                            }
                           </td>
                           <td>
                             {+v.status != 1 ? (
-                              <>{v.NW_To_Pack || 0}</>
+                              <>{v.Number_of_boxes}</>
                             ) : (
                               <input
                                 type="number"
                                 className="!w-24 mb-0"
                                 onChange={(e) => handleEditValues(i, e)}
-                                value={v.NW_To_Pack}
+                                value={v.Number_of_boxes}
                                 defaultValue="0"
-                                name="NW_To_Pack"
+                                name="Number_of_boxes"
                               />
                             )}
                           </td>
                           <td>
                             {+v.status != 1 ? (
-                              <>{v.Boxes}</>
+                              <>{v.net_weight || 0}</>
                             ) : (
                               <input
                                 type="number"
                                 className="!w-24 mb-0"
                                 onChange={(e) => handleEditValues(i, e)}
-                                value={v.Boxes}
+                                value={v.net_weight}
                                 defaultValue="0"
-                                name="Boxes"
+                                name="net_weight"
                               />
                             )}
                           </td>
-                         
                           <td>
                             {+v.status !== 1 ? (
                               v.bonus || 0

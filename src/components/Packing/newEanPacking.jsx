@@ -37,9 +37,11 @@ const NewEanPacking = () => {
     pod_code: from?.pod_code,
     sorting_id: from?.sorting_id,
     qty_used: from?.available_qty,
+    user_id: localStorage.getItem("id"),
     number_of_staff: "",
     start_time: "",
     end_time: "",
+
   };
 
   const defaultData = {
@@ -249,6 +251,7 @@ const NewEanPacking = () => {
       number_of_staff: state.number_of_staff,
       start_time: state.start_time,
       end_time: state.end_time,
+      user_id: localStorage.getItem("id"),
       assigned_order: selectedOrder,
     };
 

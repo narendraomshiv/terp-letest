@@ -1,4 +1,4 @@
-import { useMemo,useEffect,useState } from "react"
+import { useMemo, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { Link, useNavigate } from "react-router-dom"
 import { Card } from "../../card"
@@ -9,19 +9,20 @@ const PurchaseOrder = () => {
 	// const { data } = useQuery("getPurchaseOrder")
 
 
-
 	const [data, setData] = useState([]);
-	const getPurchaseOrder=()=>{
-	  axios.get(`${API_BASE_URL}/getPurchaseOrder`).then((res) => {
-		setData(res.data.data || []);
-	  });
-  
+	const getPurchaseOrder = () => {
+		axios.get(`${API_BASE_URL}/getPurchaseOrder`).then((res) => {
+			setData(res.data.data || []);
+		});
+
 	}
 	useEffect(() => {
-	  getPurchaseOrder();
+		getPurchaseOrder();
 	}, []);
 	const navigate = useNavigate()
-
+	const purchseView = () => {
+		navigate("/purchaseview")
+	}
 	const columns = useMemo(
 		() => [
 			{
@@ -60,7 +61,7 @@ const PurchaseOrder = () => {
 				Header: "Actions",
 				accessor: (a) => (
 					<div className="editIcon">
-						<i className="mdi mdi-eye" />
+						<button onClick={purchseView}><i className="mdi mdi-eye" /></button>
 						<i className="ps-2 mdi mdi-file-find" />
 						<Link to="/updatePurchaseOrder" state={{ from: a }}>
 							<i className="mdi mdi-pencil pl-2" />
@@ -339,8 +340,7 @@ const PurchaseOrder = () => {
 										</div>
 										<button
 											type="button"
-											className="UpdatePopupBtn btn btn-primary"
-										>
+											className="UpdatePopupBtn btn btn-primary">
 											Generate
 										</button>
 									</div>

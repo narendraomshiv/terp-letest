@@ -16,6 +16,7 @@ const NewSorting = () => {
 		sorted_crates: from?.cartes_to_sort,
 		sorting_notes: "",
 		blue_crates: "",
+		user_id:localStorage.getItem("id")
 	}
 
 	const [state, setState] = useState(defaultState)

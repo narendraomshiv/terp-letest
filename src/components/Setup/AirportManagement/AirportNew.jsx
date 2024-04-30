@@ -1,5 +1,4 @@
 import axios from "axios"
-
 import React, { useEffect, useState } from "react"
 import BarCode from "react-barcode"
 import { Link, useNavigate } from "react-router-dom"
@@ -9,10 +8,6 @@ import { Card } from "../../../card"
 import { TableView } from "../../table"
 
 const AirportNew = () => {
-
-
-
-
 	const navigate = useNavigate()
 	const [data, setData] = useState([])
 
@@ -56,8 +51,7 @@ const AirportNew = () => {
 			{
 				Header: "Code",
 				// accessor: (a) => <BarCode width={0.8} height={30} value={a.port_type_id=="2"? a.Seaport_code:a.IATA_code} />,
-				accessor: (a) => a.port_type_id == "2" ? a.Seaport_code : a.IATA_code
-
+				accessor: (a) => a.port_type_id === "2" ? a.Seaport_code : a.IATA_code
 			},
 
 			{

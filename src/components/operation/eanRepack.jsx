@@ -22,6 +22,7 @@ export const EanRepack = () => {
       start_time: "",
       end_time: "",
       number_of_staff: "",
+      user_id:localStorage.getItem("id"),
       details: [
         {
           eanID: "",

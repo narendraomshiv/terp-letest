@@ -56,6 +56,8 @@ const Acceptreceiving = () => {
 			.post(`${API_BASE_URL}/addreceving`, {
 				...state,
 				pod_type_id: from?.pod_type_id,
+				user_id:localStorage.getItem("id")
+
 			})
 			.then((response) => {
 				console.log(response, "Check response");

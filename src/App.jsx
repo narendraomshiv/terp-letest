@@ -114,6 +114,9 @@ import InventoryPackaging from "./components/operation/InventoryPackaging";
 import InventoryBoxes from "./components/operation/InventoryBoxes";
 import UpdateUser from "./components/Setup/user/UpdateUser";
 import ChartConsi from "./components/ClientManageMent/ChartConsi";
+import PurchaseView from "./components/PurchaseOrder/PurchaseView";
+import OrderView from "./components/Orders/OrderView";
+ 
 function App() {
   console.log('time:6:24,date:17/04/2024')
   const [isAuthenticate] = useContext(IsLoginAuthenticateContext);
@@ -254,7 +257,7 @@ function App() {
                 <Route path="/updateUser" element={<UpdateUser />} />
 
                 <Route path="/userResetPass" element={<UserResetPass />} />
-                
+
                 <Route path="/packingNew" element={<PackingNew />} />
                 <Route path="/updateHourly" element={<UpdateHourly />} />
                 <Route path="/addHourly" element={<UpdateHourly />} />
@@ -288,7 +291,10 @@ function App() {
                 <Route path="/inventoryPackaging" element={<InventoryPackaging />} />
                 <Route path="/inventoryBoxes" element={<InventoryBoxes />} />
                 <Route path="/chartConsi" element={<ChartConsi />} />
-                
+                <Route path="/purchaseview" element={<PurchaseView />} />
+                <Route path="/orderview" element={<OrderView />} />
+
+
               </Route>
             ) : (
               <>
