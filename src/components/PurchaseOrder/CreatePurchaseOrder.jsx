@@ -54,6 +54,7 @@ const CreatePurchaseOrder = () => {
       `${new Date().getFullYear()}-${new Date().getMonth()}${1}-${new Date().getDate()}`,
     supplier_invoice_number: from?.supplier_invoice_number,
     supplier_invoice_date: from?.supplier_invoice_date,
+    user_id:localStorage.getItem("id")
   });
   const [formsValue, setFormsvalue] = React.useState([
     {

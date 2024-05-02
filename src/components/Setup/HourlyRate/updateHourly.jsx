@@ -3,12 +3,14 @@ import React from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { API_BASE_URL } from "../../../Url/Url"
 import { Card } from "../../../card"
+import { toast } from "react-toastify"
 
 const UpdateHourly = () => {
 	const location = useLocation()
 	const { from } = location.state || {}
 	const navigate = useNavigate()
 	const [state, setState] = React.useState({
+		user_id:localStorage.getItem("id"),
 		wages_id: from?.wages_id,
 		from_time:
 			from?.from_time ||
@@ -57,6 +59,10 @@ const UpdateHourly = () => {
 				state,
 			)
 			.then((response) => {
+				toast.success("Wage Added Successfully", {
+					autoClose: 1000,
+					theme: "colored",
+				})
 				navigate("/hourly")
 			})
 			.catch((error) => {

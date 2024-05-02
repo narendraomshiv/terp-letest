@@ -11,6 +11,7 @@ const UpdateTransport = () => {
 	const navigate = useNavigate()
 	const { from } = location.state || {}
 	const defaultState = {
+		user_id:localStorage.getItem("id"),
 		transport_id: from?.transport_id || "",
 		Transportation_provider: from?.Transportation_provider || 1,
 		loading_from: from?.loading_from || 1,

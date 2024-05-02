@@ -92,6 +92,7 @@ const AddEan = () => {
 			.post(`${API_BASE_URL}/addEanDetails`, {
 				ean_id: eanId,
 				data: formValues,
+				user_id:localStorage.getItem("id"),
 			})
 			.then((response) => {})
 			.catch((error) => {

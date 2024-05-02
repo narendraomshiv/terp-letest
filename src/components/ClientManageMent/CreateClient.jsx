@@ -37,6 +37,7 @@ const CreateClient = () => {
 
 	const AddClient = () => {
 		const request = {
+			user_id:localStorage.getItem("id"),
 			client_id: from?.client_id,
 			client_name: state.client_name,
 			client_email: state.client_email,

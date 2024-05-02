@@ -145,10 +145,17 @@ const AddItf = () => {
 		if (formValues.filter((v) => v.item_id != 0).length == 0) return
 		axios
 			.post(`${API_BASE_URL}/addItfDetails`, {
+				user_id:localStorage.getItem("id"),
 				itf_id: itf_id,
 				data: formValues,
 			})
-			.then((response) => {})
+			.then((response) => {
+				toast.success("ITF Details Added Successfully", {
+					autoClose: 1000,
+					theme: "colored",
+				})
+
+			})
 			.catch((error) => {
 				console.log(error)
 			})

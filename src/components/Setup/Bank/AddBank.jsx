@@ -32,6 +32,7 @@ const AddBank = () => {
 
 	const addBank = () => {
 		const request = {
+			user_id:localStorage.getItem("id"),
 			Bank_nick_name: state.Bank_nick_name,
 			bank_name: state.bank_name,
 			bank_account_number: state.bank_account_number,

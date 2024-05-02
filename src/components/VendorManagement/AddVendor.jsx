@@ -13,6 +13,8 @@ const AddVendor = () => {
   const { from } = location.state || {};
   const navigate = useNavigate();
   const [state, setState] = useState({
+    user_id: localStorage.getItem("id"),
+
     vendor_id: from?.vendor_id ?? undefined,
     name: from?.name ?? "",
     id_card: from?.id_card ?? "",

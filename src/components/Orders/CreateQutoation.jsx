@@ -27,6 +27,7 @@ const CreateQutoation = () => {
 			: new Date().toISOString().slice(0, 10),
 		quote_id: from?.quote_id,
 		Quote_Number: from?.Quote_Number,
+		user_id:localStorage.getItem("id"),
 		brand_id: from?.brand_id,
 		client_id: from?.client_id,
 		loading_location: from?.loading_location,
@@ -142,12 +143,12 @@ const CreateQutoation = () => {
 				state.fx_id ||
 				consignee?.find((v) => v.consignee_id == state.consignee_id)?.fx_id,
 			fx_rate:
-				state.fx_rate ||
-				currency?.find((v) => v.currency_id == state.fx_id)?.fx_rate ||
-				currency[
-					consignee?.findIndex((v) => v.consignee_id == state.consignee_id)
-				]?.fx_rate ||
-				0,
+				state?.fx_rate ||
+				currency?.find((v) => v?.currency_id == state?.fx_id)?.fx_rate ||
+				// currency[
+				// 	consignee?.findIndex((v) => v?.consignee_id == state?.consignee_id)
+				// ]?.fx_rate ||
+				consignee?.findIndex((v) => v?.consignee_id == state?.consignee_id)?.fx_rate ||0,
 			fx_id:
 				state.fx_id ||
 				consignee?.find((v) => v.consignee_id == state.consignee_id)?.currency,

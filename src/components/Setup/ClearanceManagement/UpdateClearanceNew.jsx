@@ -83,6 +83,7 @@ const UpdateClearanceNew = () => {
 	const updateClearance = (res) => {
 		const request = {
 			clearance_id: from?.clearance_id,
+			user_id:localStorage.getItem("id"),
 			from_port: editClearance.from_port,
 			vendor_id: editClearance.vendor_id,
 			custom_clearance_charges: editClearance.custom_clearance_charges,

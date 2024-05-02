@@ -30,6 +30,7 @@ const CreateBoxNew = () => {
 
 	const boxCreate = () => {
 		const request = {
+			user_id:localStorage.getItem("id"),
 			box_name: state.box_name,
 			box_height: state.box_height,
 			box_weight: state.box_weight,

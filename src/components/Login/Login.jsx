@@ -76,7 +76,11 @@ const Login = () => {
 					}
 				})
 				.catch((error) => {
-					console.log(error)
+					console.log(error.response.data.msg)
+					toast.error(error.response.data.msg, {
+						autoClose: 1000,
+						theme: "colored",
+					})
 				})
 		}
 	}

@@ -29,6 +29,7 @@ const CreatePackagingNew = () => {
 
 	const addPackaging = () => {
 		const request = {
+			user_id:localStorage.getItem("id"),
 			packaging_name: state.packaging_name,
 			Inventory_ID: state.Inventory_ID,
 			packaging_inventory_type_id: state.packaging_inventory_type_id,

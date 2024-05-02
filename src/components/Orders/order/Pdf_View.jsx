@@ -25,7 +25,6 @@ export const Pdf_View = () => {
 
         setTableData(response?.data?.tableData);
         setTotalDetails(response?.data?.totalDetails);
-        
       })
       .catch((error) => {
         console.log(error);
@@ -43,9 +42,18 @@ export const Pdf_View = () => {
 
   const id = useId();
   const { toPDF, targetRef } = usePDF({
-    filename: `${from?.Order_number || 'default'}.pdf`,
+    filename: `${from?.Order_number || "default"} Customs ${formatDate(
+      new Date()
+    )}.pdf`,
   });
-  
+
+  function formatDate(date) {
+    const day = date.getDate().toString().padStart(2, "0"); // Adds leading zero if needed
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-based, add 1
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
   return (
     <>
       <button onClick={toPDF} type="button" className="btn btn-primary">
@@ -93,36 +101,45 @@ export const Pdf_View = () => {
                       </tr>
                     </tbody>
                   </table>
-                  <table style={{ width: "100%" }}>
+                  <table
+                    style={{
+                      width: "100%",
+                      borderTop: "4px solid #1b2245",
+                      borderBottom: "4px solid #1b2245",
+                    }}
+                  >
                     <tbody>
                       <tr>
-                        <td style={{ padding: "2px 2px 2px 0px" }}>
-                          <h3
-                            style={{
-                              margin: 0,
-                              textAlign: "center",
-                              fontSize: 14,
-                              borderTop: "4px solid rgb(0, 0, 0)",
-                              borderBottom: "4px solid rgb(0, 0, 0)",
-                              padding: "5px 0px",
-                            }}
-                          >
-                            Packing List / Invoice
-                          </h3>
+                        <td
+                          style={{
+                            padding: "0px 2px 13px 0px",
+                            textAlign: "center",
+                            color: "#1b2245",
+                            fontSize: "14px",
+                            fontWeight: "600",
+                          }}
+                        >
+                          Packing List / Invoice
                         </td>
                       </tr>
                     </tbody>
                   </table>
-                  <table style={{ width: "100%", padding: 5 }}>
+                  <table style={{ width: "100%" }}>
                     <tbody>
                       <tr>
-                        <td style={{ paddingLeft: 0 }}>
+                        <td
+                          style={{
+                            paddingLeft: "0px",
+                            paddingTop: "2px",
+                            paddingBottom: "5px",
+                          }}
+                        >
                           <div style={{ display: "flex" }}>
                             <div style={{ width: "100%" }}>
                               <table style={{ width: "100%" }}>
                                 <tbody>
                                   <tr>
-                                    <td style={{ paddingLeft: 0 }}>
+                                    <td style={{ padding: "0px" }}>
                                       <div style={{ display: "flex" }}>
                                         <div style={{ width: "50%" }}>
                                           <div
@@ -340,14 +357,13 @@ export const Pdf_View = () => {
                   <table
                     style={{
                       width: "100%",
-                      marginBottom: 5,
                       marginTop: 5,
                       borderTop: "4px solid rgb(0, 0, 0)",
                     }}
                   >
                     <tbody>
                       <tr>
-                        <td style={{ paddingLeft: 0 }}>
+                        <td style={{ padding: "0px " }}>
                           <div style={{ display: "flex", padding: "5px 0px" }}>
                             <div style={{ width: "50%", paddingRight: 5 }}>
                               <p
@@ -376,13 +392,59 @@ export const Pdf_View = () => {
                   >
                     <tbody>
                       <tr className="darkTh">
-                        <th style={{ textAlign: "center", width: 20 }}>#</th>
-                        <th style={{ textAlign: "center" }}>Item Detail </th>
-                        <th style={{ textAlign: "center" }}>HS Code</th>
-                        <th style={{ textAlign: "center", width: 60 }}>QTY</th>
-                        <th style={{ width: 60, textAlign: "center" }}>UNIT</th>
-                        <th style={{ textAlign: "center", width: 60 }}>BOX</th>
-                        <th style={{ textAlign: "center", width: 85 }}>
+                        <th
+                          style={{
+                            textAlign: "center",
+                            width: 20,
+                            paddingBottom: "13px",
+                          }}
+                        >
+                          #
+                        </th>
+                        <th
+                          style={{ textAlign: "center", paddingBottom: "13px" }}
+                        >
+                          Item Detail{" "}
+                        </th>
+                        <th
+                          style={{ textAlign: "center", paddingBottom: "13px" }}
+                        >
+                          HS Code
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "center",
+                            width: 60,
+                            paddingBottom: "13px",
+                          }}
+                        >
+                          QTY
+                        </th>
+                        <th
+                          style={{
+                            width: 60,
+                            textAlign: "center",
+                            paddingBottom: "13px",
+                          }}
+                        >
+                          UNIT
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "center",
+                            width: 60,
+                            paddingBottom: "13px",
+                          }}
+                        >
+                          BOX
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "center",
+                            width: 85,
+                            paddingBottom: "13px",
+                          }}
+                        >
                           FOB (THB)
                         </th>
                       </tr>
@@ -390,17 +452,59 @@ export const Pdf_View = () => {
                       {tableData?.map((item, i) => {
                         return (
                           <tr>
-                            <td style={{ textAlign: "center" }}>{i + 1}</td>
-                            <td>{item.ITF}</td>
-                            <td style={{ textAlign: "right" }}>
+                            <td
+                              style={{
+                                textAlign: "center",
+                                paddingBottom: "13px",
+                              }}
+                            >
+                              {i + 1}
+                            </td>
+                            <td style={{ paddingBottom: "13px" }}>
+                              {item.itf_th
+}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "right",
+                                paddingBottom: "13px",
+                              }}
+                            >
                               {item.HS_CODE}
                             </td>
-                            <td style={{ textAlign: "right" }}>
+                            <td
+                              style={{
+                                textAlign: "right",
+                                paddingBottom: "13px",
+                              }}
+                            >
                               {item.Net_Weight}
                             </td>
-                            <td style={{ textAlign: "center" }}>{item.Unit}</td>
-                            <td style={{ textAlign: "right" }}>{item.Boxes}</td>
-                            <td style={{ textAlign: "right" }}> {item.FOB}</td>
+                            <td
+                              style={{
+                                textAlign: "center",
+                                paddingBottom: "13px",
+                              }}
+                            >
+                              {item.Unit}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "right",
+                                paddingBottom: "13px",
+                              }}
+                            >
+                              {item.Boxes}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "right",
+                                paddingBottom: "13px",
+                              }}
+                            >
+                              {" "}
+                              {item.FOB}
+                            </td>
                           </tr>
                         );
                       })}
@@ -428,7 +532,10 @@ export const Pdf_View = () => {
                                   <strong>:</strong>
                                 </div>
                                 <div>
-                                  <p>{totalDetails.Total_Box}  Boxes /{totalDetails.Items}  Item </p>
+                                  <p>
+                                    {totalDetails.Total_Box} Boxes /
+                                    {totalDetails.Items} Item{" "}
+                                  </p>
                                 </div>
                               </div>
                               <div style={{ display: "flex", marginTop: 2 }}>
@@ -534,45 +641,55 @@ export const Pdf_View = () => {
                             </div>
                             <div>
                               <div style={{ marginTop: 2 }}>
-                                <div
-                                  style={{
-                                    backgroundColor: "rgb(27, 34, 69)",
-                                    width: 150,
-                                  }}
-                                >
-                                  <p
-                                    style={{
-                                      color: "rgb(255, 255, 255)",
-                                      textAlign: "center",
-                                      padding: 2,
-                                    }}
-                                  >
-                                    <strong>Total THB</strong>
-                                  </p>
-                                </div>
+                                <table>
+                                  <tr>
+                                    <td
+                                      style={{ color: "#000", padding: "0px" }}
+                                    >
+                                      <strong>Total THB</strong>
+                                    </td>
+                                  </tr>
+                                </table>
+
                                 <div>
-                                  <p style={{ textAlign: "right" }}>1234678</p>
+                                  <table>
+                                    <tr>
+                                      <td
+                                        style={{
+                                          textAlign: "right",
+                                          padding: "2px",
+                                        }}
+                                      >
+                                        1234567
+                                      </td>
+                                    </tr>
+                                  </table>
                                 </div>
                               </div>
                               <div style={{ marginTop: 2 }}>
-                                <div
-                                  style={{
-                                    backgroundColor: "rgb(27, 34, 69)",
-                                    width: 150,
-                                  }}
-                                >
-                                  <p
-                                    style={{
-                                      color: "rgb(255, 255, 255)",
-                                      textAlign: "center",
-                                      padding: 2,
-                                    }}
-                                  >
-                                    <strong>TOTAL USD</strong>
-                                  </p>
-                                </div>
+                                <table>
+                                  <tr>
+                                    <td
+                                      style={{ color: "#000", padding: "0px" }}
+                                    >
+                                      <strong>TOTAL USD</strong>
+                                    </td>
+                                  </tr>
+                                </table>
+
                                 <div>
-                                  <p style={{ textAlign: "right" }}>1234678</p>
+                                  <table>
+                                    <tr>
+                                      <td
+                                        style={{
+                                          textAlign: "right",
+                                          padding: "2px",
+                                        }}
+                                      >
+                                        1234678
+                                      </td>
+                                    </tr>
+                                  </table>
                                 </div>
                               </div>
                             </div>

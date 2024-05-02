@@ -44,8 +44,15 @@ export const OrderPdfView = () => {
 
   const id = useId();
   const { toPDF, targetRef } = usePDF({
-    filename: `${from?.Order_number || "default"}.pdf`,
+    filename: `${from?.Order_number || "default"} Operations ${formatDate(new Date())}.pdf`,
   });
+  function formatDate(date) {
+    const day = date.getDate().toString().padStart(2, '0'); // Adds leading zero if needed
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-based, add 1
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+  
   return (
     <>
       <button onClick={toPDF} type="button" className="btn btn-primary">
@@ -53,7 +60,7 @@ export const OrderPdfView = () => {
       </button>
 
       <div
-        style={{ width: "900px" }}
+        style={{ width: "990px" }}
         ref={targetRef}
         className="bg-white print:bg-none"
       >
@@ -86,7 +93,7 @@ export const OrderPdfView = () => {
                           alt=""
                         />
                       </td>
-                      <td style={{ width: "95%" }}>
+                      <td style={{ width: "95%",padding:"0px" }}>
                         <div style={{ display: "flex" }}>
                           <div
                             style={{ width: 300, padding: "0px 10px 0px 0px" }}
@@ -111,9 +118,9 @@ export const OrderPdfView = () => {
                                 color: "#fff",
                                 textAlign: "center",
                                 fontSize: 16,
-                                paddingTop: "5px",
+                                paddingTop: "0px",
                                 paddingBottom: "20px",
-                                height: "30px",
+                                
                               }}
                             >
                               ออเดอร์ /โหลด
@@ -121,9 +128,9 @@ export const OrderPdfView = () => {
                             <table>
                               <tbody>
                                 <tr>
-                                  <td style={{ paddingRight: 20 }}>
+                                  <td style={{ padding:"0px 20px 15px 0px", }}>
                                     <div
-                                      style={{ display: "flex", marginTop: 5 }}
+                                      style={{ display: "flex",}}
                                     >
                                       <div
                                         style={{ marginRight: 10, width: 100 }}
@@ -141,7 +148,7 @@ export const OrderPdfView = () => {
                                       </div>
                                     </div>
                                     <div
-                                      style={{ display: "flex", marginTop: 5 }}
+                                      style={{ display: "flex", marginTop: 0 }}
                                     >
                                       <div
                                         style={{ marginRight: 10, width: 100 }}
@@ -159,7 +166,7 @@ export const OrderPdfView = () => {
                                       </div>
                                     </div>
                                     <div
-                                      style={{ display: "flex", marginTop: 10 }}
+                                      style={{ display: "flex", marginTop: 0 }}
                                     >
                                       <div
                                         style={{ marginRight: 10, width: 100 }}
@@ -177,9 +184,9 @@ export const OrderPdfView = () => {
                                       </div>
                                     </div>
                                   </td>
-                                  <td>
+                                  <td style={{padding:"0px"}}>
                                     <div
-                                      style={{ display: "flex", marginTop: 10 }}
+                                      style={{ display: "flex", marginTop: 0 }}
                                     >
                                       <div
                                         style={{ marginRight: 10, width: 100 }}
@@ -197,7 +204,7 @@ export const OrderPdfView = () => {
                                       </div>
                                     </div>
                                     <div
-                                      style={{ display: "flex", marginTop: 10 }}
+                                      style={{ display: "flex", marginTop: 0 }}
                                     >
                                       <div
                                         style={{ marginRight: 10, width: 100 }}
@@ -242,7 +249,7 @@ export const OrderPdfView = () => {
                             </table>
                             <div
                               style={{
-                                marginTop: 15,
+                                marginTop: 0,
                                 height: 5,
                                 backgroundColor: "#1b2245",
                               }}
@@ -259,33 +266,33 @@ export const OrderPdfView = () => {
                 >
                   <tbody>
                     <tr className="darkTh">
-                      <th colSpan={4}>รายละเอียดสินค้า</th>
-                      <th colSpan={3}>ออเดอร์</th>
-                      <th colSpan={2}>โหลด</th>
+                      <th colSpan={4}style={{paddingTop:"0px",paddingBottom:"15px"}}>รายละเอียดสินค้า</th>
+                      <th colSpan={3} style={{paddingTop:"0px",paddingBottom:"15px"}}>ออเดอร์</th>
+                      <th colSpan={2} style={{paddingTop:"0px",paddingBottom:"15px"}}>โหลด</th>
                     </tr>
                     <tr>
-                      <th>Packing</th>
-                      <th>Boxes</th>
-                      <th>Brand</th>
-                      <th>ITF</th>
-                      <th>EAN</th>
-                      <th>Net Weight</th>
-                      <th>BOXES</th>
-                      <th>empty1</th>
-                      <th>Empty2</th>
+                      <th style={{paddingTop:"0px",paddingBottom:"15px"}}>Packing</th>
+                      <th style={{paddingTop:"0px",paddingBottom:"15px"}}>Boxes</th>
+                      <th style={{paddingTop:"0px",paddingBottom:"15px"}}>Brand</th>
+                      <th style={{paddingTop:"0px",paddingBottom:"15px"}}>ITF</th>
+                      <th style={{paddingTop:"0px",paddingBottom:"15px"}}>EAN</th>
+                      <th style={{paddingTop:"0px",paddingBottom:"15px"}}>Net Weight</th>
+                      <th style={{paddingTop:"0px",paddingBottom:"15px"}}>BOXES</th>
+                      <th style={{paddingTop:"0px",paddingBottom:"15px"}}>empty1</th>
+                      <th  style={{paddingTop:"0px",paddingBottom:"15px"}}>Empty2</th>
                     </tr>
 
                     {tableData?.map((item) => {
                       return (
                         <tr>
-                          <td>{item.Packaging}</td>
+                          <td style={{paddingTop:"0px",paddingBottom:"15px"}}>{item.Packaging}</td>
                           
-                          <td>{item.Boxes1}</td>
-                          <td>{item.Brand}</td>
-                          <td>{item.itf}</td>
-                          <td>{item.ean_weight}</td>
-                          <td>{item.Net_Weight}</td>
-                          <td>{item.Boxes2}</td>
+                          <td style={{paddingTop:"0px",paddingBottom:"15px"}}>{item.Boxes1}</td>
+                          <td style={{paddingTop:"0px",paddingBottom:"15px"}}>{item.Brand}</td>
+                          <td style={{paddingTop:"0px",paddingBottom:"15px"}}>{item.itf}</td>
+                          <td style={{paddingTop:"0px",paddingBottom:"15px"}}>{item.ean_weight}</td>
+                          <td style={{paddingTop:"0px",paddingBottom:"15px"}}>{item.Net_Weight}</td>
+                          <td style={{paddingTop:"0px",paddingBottom:"15px"}}>{item.Boxes2}</td>
                           <td />
                           <td />
                         </tr>

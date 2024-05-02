@@ -30,6 +30,7 @@ const ProduceCreateNew = () => {
 
 	const produceCreate = async () => {
 		const request = {
+			user_id:localStorage.getItem("id"),
 			produce_name_en: state.produce_name_en,
 			produce_name_th: state.produce_name_th,
 			produce_scientific_name: state.produce_scientific_name,

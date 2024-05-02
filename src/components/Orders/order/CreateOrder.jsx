@@ -14,7 +14,8 @@ const CreateOrder = () => {
   const { from } = location.state || {};
   const isReadOnly = from?.isReadOnly;
   const [isLoading, setIsLoading] = useState(false);
-
+  const [consignee, setConsignee] = useState([]);
+  
   const loadingModal = MySwal.mixin({
     title: "Loading...",
     didOpen: () => {
@@ -69,7 +70,7 @@ const CreateOrder = () => {
   const { data: ports } = useQuery("getAllAirports");
   const { data: clearance } = useQuery("getClearance");
   const { data: transport } = useQuery("getTransportation_Supplier");
-  const { data: consignee } = useQuery("getConsignee");
+  // const { data: consignee } = useQuery("getConsignee");
   const { data: currency } = useQuery("getCurrency");
   const { data: unit } = useQuery("getAllUnit");
   const { data: itf } = useQuery("getItf");
@@ -85,7 +86,18 @@ const CreateOrder = () => {
 
   useEffect(() => {
     if (state.order_id) getOrdersDetails();
-  }, []);
+    axios
+      .post(`${API_BASE_URL}/getClientConsignee`, {
+        client_id: state.client_id,
+      })
+      .then((response) => {
+        console.log(response.data.data);
+        setConsignee(response.data.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [state.client_id]);
   const computedState = useMemo(() => {
     const quoteFind = quote?.find((v) => v.quote_id == state.quote_id);
     const r = {
@@ -268,9 +280,9 @@ const CreateOrder = () => {
   }, [selectedDetails]);
 
   const [toEditDetails, setToEditDetails] = useState({});
-  console.log(toEditDetails?.brand_id );
+  console.log(toEditDetails?.brand_id);
   console.log(defaultDetailsValue?.brand_id);
-console.log(defaultDetailsValue)
+  console.log(defaultDetailsValue);
   const closeModal = () => {
     setIsOpenModal(false);
     setSelectedDetails(null);

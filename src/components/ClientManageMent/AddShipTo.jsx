@@ -38,6 +38,7 @@ const AddShipTo = () => {
     notify_email: from?.notify_email || "",
     notify_phone: from?.notify_phone || "",
     notify_address: from?.notify_address || "",
+    user_id:localStorage.getItem("id"),
     // bank_name: from?.bank_name || "",
     // account_name: from?.account_name || "",
     // account_number: from?.account_number || "",

@@ -31,7 +31,6 @@ import UpdateOperation from "./components/Orders/UpdateOperation";
 import CreateOrder from "./components/Orders/order/CreateOrder";
 import Orders from "./components/Orders/order/list";
 import { OrderPdfView } from "./components/Orders/order/pdfView";
-
 import AddPacking from "./components/Packing/AddPacking";
 import Hpl from "./components/Packing/Hpl";
 import HplDetails from "./components/Packing/HplDetails";
